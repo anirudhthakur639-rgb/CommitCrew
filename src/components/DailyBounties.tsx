@@ -67,3 +67,4 @@ export const DailyBounties: React.FC = () => {
     </div>
   );
 };
+

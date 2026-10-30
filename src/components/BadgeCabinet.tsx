@@ -52,3 +52,4 @@ export const BadgeCabinet: React.FC = () => {
     </div>
   );
 };
+

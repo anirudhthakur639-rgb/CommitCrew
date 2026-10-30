@@ -106,3 +106,4 @@ export const HeroCabinet: React.FC = () => {
     </div>
   );
 };
+

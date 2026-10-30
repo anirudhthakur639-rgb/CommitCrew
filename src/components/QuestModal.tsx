@@ -146,3 +146,4 @@ export const QuestModal: React.FC = () => {
     </div>
   );
 };
+

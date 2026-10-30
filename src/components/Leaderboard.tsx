@@ -94,3 +94,4 @@ export const Leaderboard: React.FC = () => {
     </div>
   );
 };
+
