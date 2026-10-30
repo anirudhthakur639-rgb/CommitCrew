@@ -56,9 +56,66 @@
   box-shadow: 4px 4px 0px #ef476f;
 }
 
-.pixel-border-inset {
-  border: 4px solid #000000;
-  box-shadow: inset 3px 3px 0px rgba(0, 0, 0, 0.4), inset -3px -3px 0px rgba(255, 255, 255, 0.2);
+/* Animated Neon Brand Glowing Border */
+@keyframes neonPulse {
+  0%, 100% {
+    border-color: #06d6a0;
+    box-shadow: 0 0 14px rgba(6, 214, 160, 0.8), 0 0 28px rgba(6, 214, 160, 0.4), 3px 3px 0 #000;
+  }
+  50% {
+    border-color: #ffd166;
+    box-shadow: 0 0 18px rgba(255, 209, 102, 0.9), 0 0 36px rgba(255, 209, 102, 0.5), 3px 3px 0 #000;
+  }
+}
+
+.neon-brand-glow {
+  animation: neonPulse 2.5s infinite ease-in-out;
+}
+
+/* Brighter Navbar Glow-on-Hover Classes */
+.glow-cyan-hover {
+  transition: all 0.15s ease-in-out;
+}
+.glow-cyan-hover:hover {
+  box-shadow: 0 0 16px #06d6a0, 0 0 30px rgba(6, 214, 160, 0.6), 2px 2px 0 #000;
+  border-color: #06d6a0;
+  transform: translate(-1px, -1px);
+}
+
+.glow-yellow-hover {
+  transition: all 0.15s ease-in-out;
+}
+.glow-yellow-hover:hover {
+  box-shadow: 0 0 16px #ffd166, 0 0 30px rgba(255, 209, 102, 0.6), 2px 2px 0 #000;
+  border-color: #ffd166;
+  transform: translate(-1px, -1px);
+}
+
+.glow-orange-hover {
+  transition: all 0.15s ease-in-out;
+}
+.glow-orange-hover:hover {
+  box-shadow: 0 0 16px #ff8906, 0 0 30px rgba(255, 137, 6, 0.6), 2px 2px 0 #000;
+  border-color: #ff8906;
+  transform: translate(-1px, -1px);
+}
+
+.glow-pink-hover {
+  transition: all 0.15s ease-in-out;
+}
+.glow-pink-hover:hover {
+  box-shadow: 0 0 16px #ef476f, 0 0 30px rgba(239, 71, 111, 0.6), 2px 2px 0 #000;
+  border-color: #ef476f;
+  transform: translate(-1px, -1px);
+}
+
+.glow-blue-hover {
+  transition: all 0.15s ease-in-out;
+}
+.glow-blue-hover:hover {
+  box-shadow: 0 0 16px #00bbf9, 0 0 30px rgba(0, 187, 249, 0.6), 2px 2px 0 #000;
+  border-color: #00bbf9;
+  transform: translate(-1px, -1px);
 }
 
 /* Interactive Pixel Buttons with Crisp Feedback */
@@ -80,33 +137,64 @@
   box-shadow: 1px 1px 0px #000000;
 }
 
-/* Codédex Motion In-Background Animations */
-@keyframes skyMove {
+/* High-Tech Animations (Matrix, Circuit Scans, Pulse Grid) */
+@keyframes cyberScan {
   0% {
-    background-position: 0px 0;
+    top: 0%;
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
   }
   100% {
-    background-position: 1050px 0;
+    top: 100%;
+    opacity: 0.1;
   }
 }
 
-.animate-sky-move {
-  animation: skyMove 160s infinite linear;
+.animate-cyber-scan {
+  animation: cyberScan 3s infinite linear;
 }
 
-/* Subtle CRT Scanlines & Arcade Grid */
+@keyframes matrixFall {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.animate-matrix-fall {
+  animation: matrixFall 18s infinite linear;
+}
+
+@keyframes chipPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px #06d6a0);
+  }
+  50% {
+    filter: drop-shadow(0 0 20px #00f5d4);
+  }
+}
+
+.animate-chip-pulse {
+  animation: chipPulse 2s infinite ease-in-out;
+}
+
+/* Subtle CRT Scanlines & Cyber Tech Grid */
 .arcade-grid {
-  background-color: #0c0b1a;
+  background-color: #0a0915;
   background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 24px 24px;
+    linear-gradient(rgba(6, 214, 160, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 214, 160, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 .scanlines {
   background: linear-gradient(
     rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.15) 50%
+    rgba(0, 0, 0, 0.2) 50%
   );
   background-size: 100% 4px;
   pointer-events: none;
@@ -119,7 +207,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #141226;
+  background: #100e24;
   border-left: 2px solid #000;
 }
 
@@ -129,5 +217,5 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff8906;
+  background: #06d6a0;
 }

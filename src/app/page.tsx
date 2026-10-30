@@ -97,7 +97,7 @@ const DashboardContent: React.FC = () => {
           </div>
 
           <div className="font-mono text-xs text-[#a7a9be]">
-            Built with 8-bit love for open-source learners · Inspired by Codédex
+            CodeQuest · Built with 8-bit love for open-source learners · Hacktoberfest 2026
           </div>
 
           <div className="font-pixel text-[9px] text-[#ef476f] bg-[#141226] px-2.5 py-1 border border-black">

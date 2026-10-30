@@ -10,8 +10,8 @@ const pressStart2P = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "DevForge Arcade | Level Up Your Code",
-  description: "A retro-gaming 8-bit learning adventure inspired by Codédex. Master coding quests, earn XP, and unlock open-source achievements.",
+  title: "CodeQuest | Retro-Gaming Coding Odyssey",
+  description: "A high-tech retro-gaming 8-bit learning adventure. Master coding quests, run interactive terminals, earn XP, and unlock open-source achievements.",
 };
 
 export default function RootLayout({

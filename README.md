@@ -1,4 +1,4 @@
-# 👾 DevForge Arcade | Retro-Gaming Coding Odyssey
+# ⚡ CodeQuest | Retro-Gaming Coding Odyssey
 
 > **DevForge × Hacktoberfest 2026 Hack Day Bengaluru**  
 > **Theme:** Open Source for Education (Theme 02)  
