@@ -12,6 +12,7 @@ import { JourneyView } from "@/components/JourneyView";
 import { ProfileView } from "@/components/ProfileView";
 import { GitStoryViewer } from "@/components/GitStoryViewer";
 import { InteractiveLessonWorkspace } from "@/components/InteractiveLessonWorkspace";
+import { CodedexAnimatedBackground } from "@/components/CodedexAnimatedBackground";
 import { QuestModal } from "@/components/QuestModal";
 
 const DashboardContent: React.FC = () => {
@@ -111,8 +112,14 @@ const DashboardContent: React.FC = () => {
 export default function Home() {
   return (
     <GameProvider>
-      <div className="min-h-screen flex flex-col arcade-grid">
-        <DashboardContent />
+      <div className="min-h-screen flex flex-col relative overflow-x-hidden bg-[#0c0b1a]">
+        {/* Living in-motion animated Codédex landscape backdrop */}
+        <CodedexAnimatedBackground />
+
+        {/* Foreground Content with crisp z-10 positioning */}
+        <div className="relative z-10 flex-1 flex flex-col">
+          <DashboardContent />
+        </div>
       </div>
     </GameProvider>
   );

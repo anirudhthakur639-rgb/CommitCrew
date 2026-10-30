@@ -4,14 +4,28 @@
   :root {
     --font-pixel: var(--font-press-start), "Courier New", monospace;
   }
+  
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 }
 
 /* Retro Pixel Font Classes */
 .font-pixel {
   font-family: var(--font-pixel), monospace;
+  letter-spacing: 0.04em;
 }
 
-/* 8-bit Pixel Borders & Shadows */
+/* Ensure Pixel Art Renders Crisp and Sharp without blurring */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* 8-bit Pixel Borders & Shadows (Precise and Clear) */
 .pixel-border {
   border: 4px solid #000000;
   box-shadow: 4px 4px 0px #000000;
@@ -47,7 +61,7 @@
   box-shadow: inset 3px 3px 0px rgba(0, 0, 0, 0.4), inset -3px -3px 0px rgba(255, 255, 255, 0.2);
 }
 
-/* Interactive Pixel Buttons */
+/* Interactive Pixel Buttons with Crisp Feedback */
 .pixel-btn {
   border: 3px solid #000000;
   box-shadow: 4px 4px 0px #000000;
@@ -66,33 +80,36 @@
   box-shadow: 1px 1px 0px #000000;
 }
 
-/* Subtle CRT Scanlines & Arcade Background */
+/* Codédex Motion In-Background Animations */
+@keyframes skyMove {
+  0% {
+    background-position: 0px 0;
+  }
+  100% {
+    background-position: 1050px 0;
+  }
+}
+
+.animate-sky-move {
+  animation: skyMove 160s infinite linear;
+}
+
+/* Subtle CRT Scanlines & Arcade Grid */
 .arcade-grid {
-  background-color: #0d0c1d;
+  background-color: #0c0b1a;
   background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 .scanlines {
   background: linear-gradient(
     rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.25) 50%
+    rgba(0, 0, 0, 0.15) 50%
   );
   background-size: 100% 4px;
   pointer-events: none;
-}
-
-/* Retro CRT Glow animation */
-@keyframes flicker {
-  0% { opacity: 0.97; }
-  50% { opacity: 1; }
-  100% { opacity: 0.98; }
-}
-
-.crt-screen {
-  animation: flicker 0.15s infinite;
 }
 
 /* Custom Pixel Scrollbar */
@@ -102,7 +119,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a2e;
+  background: #141226;
   border-left: 2px solid #000;
 }
 

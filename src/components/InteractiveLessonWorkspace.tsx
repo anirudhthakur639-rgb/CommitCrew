@@ -541,3 +541,4 @@ export const InteractiveLessonWorkspace: React.FC<{ onBackToMap?: () => void }> 
     </div>
   );
 };
+
