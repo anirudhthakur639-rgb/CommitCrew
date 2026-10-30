@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Press_Start_2P } from "next/font/google";
+import { CustomCursor } from "@/components/CustomCursor";
 import "./globals.css";
 
 const pressStart2P = Press_Start_2P({
@@ -21,7 +22,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${pressStart2P.variable} h-full`}>
-      <body className="min-h-full flex flex-col font-mono bg-[#0f0e17] text-[#fffffe] selection:bg-[#ff8906] selection:text-[#0f0e17]">
+      <body className="min-h-full flex flex-col font-mono bg-[#0c0b1a] text-[#fffffe] selection:bg-[#ff8906] selection:text-[#0f0e17]">
+        <CustomCursor />
         {children}
       </body>
     </html>

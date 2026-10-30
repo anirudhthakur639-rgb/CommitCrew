@@ -5,9 +5,7 @@ import { GameProvider, useGame } from "@/context/GameContext";
 import { Navbar } from "@/components/Navbar";
 import { HeroCabinet } from "@/components/HeroCabinet";
 import { JourneyTracks } from "@/components/JourneyTracks";
-import { DailyBounties } from "@/components/DailyBounties";
-import { Leaderboard } from "@/components/Leaderboard";
-import { BadgeCabinet } from "@/components/BadgeCabinet";
+import { ArcadeHub } from "@/components/ArcadeHub";
 import { JourneyView } from "@/components/JourneyView";
 import { ProfileView } from "@/components/ProfileView";
 import { GitStoryViewer } from "@/components/GitStoryViewer";
@@ -28,47 +26,45 @@ const DashboardContent: React.FC = () => {
             {/* Top Retro Hero Banner */}
             <HeroCabinet />
 
-            {/* Featured Git Story Mode Banner */}
+            {/* Featured Git Story Mode Spotlight */}
             <div 
               onClick={() => setActiveTab("git-story")}
-              className="bg-gradient-to-r from-[#ff8906]/20 via-[#17152b] to-[#06d6a0]/20 pixel-border p-4 flex flex-col sm:flex-row items-center justify-between gap-4 cursor-pointer hover:bg-[#201d3a] transition-all group"
+              className="bg-[#141228]/90 border-2 border-[#ff8906]/60 hover:border-[#ff8906] p-3 sm:p-3.5 pixel-border-sm flex flex-col sm:flex-row items-center justify-between gap-3 cursor-pointer hover:bg-[#1c183d] transition-all group shadow-[3px_3px_0_#000]"
             >
               <div className="flex items-center gap-3 text-center sm:text-left">
-                <div className="w-12 h-12 bg-[#090814] pixel-border-sm flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shrink-0">
+                <div className="w-10 h-10 bg-[#090814] border-2 border-[#ff8906] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shrink-0">
                   🐱
                 </div>
                 <div>
-                  <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
-                    <span className="font-pixel text-[8px] bg-[#ff8906] text-black px-1.5 py-0.5 border border-black">
+                  <div className="flex items-center justify-center sm:justify-start gap-2">
+                    <span className="font-pixel text-[8px] bg-[#ff8906] text-black px-1.5 py-0.5 border border-black font-bold">
                       STORY MODE
                     </span>
                     <span className="font-pixel text-[9px] text-[#ffd166]">
-                      GIT &amp; GITHUB WITH DORAEMON FRIENDS
+                      Git &amp; GitHub with Doraemon Friends
                     </span>
                   </div>
-                  <p className="font-mono text-xs text-[#fffffe]">
-                    Watch Gian, Nobita &amp; Suneo navigate merge conflicts, staging carts &amp; pull requests in 6 interactive cutscenes!
+                  <p className="font-mono text-[11px] text-[#a7a9be] mt-0.5">
+                    Gian, Nobita &amp; Suneo navigate merge conflicts, staging carts &amp; PR reviews!
                   </p>
                 </div>
               </div>
 
-              <button className="px-4 py-2 bg-[#ffd166] text-black font-pixel text-[10px] uppercase pixel-btn shrink-0 group-hover:bg-[#fff] transition-colors">
+              <button className="px-3.5 py-1.5 bg-[#ffd166] text-black font-pixel text-[9px] uppercase pixel-btn shrink-0 group-hover:bg-[#fff] transition-colors font-bold">
                 PLAY STORY &gt;
               </button>
             </div>
 
-            {/* Codédex Central Dashboard Grid */}
+            {/* CodeQuest Central Dashboard Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
               {/* Left & Center Main Column: Course Tracks & Quests (8 Cols) */}
               <div className="lg:col-span-8 space-y-6">
                 <JourneyTracks />
               </div>
 
-              {/* Right Side Rail: Daily Tasks, Leaderboard, Badges (4 Cols) */}
-              <div className="lg:col-span-4 space-y-6">
-                <DailyBounties />
-                <Leaderboard />
-                <BadgeCabinet />
+              {/* Right Side Rail: Unified & Uncluttered Arcade Hub (4 Cols) */}
+              <div className="lg:col-span-4 sticky top-20">
+                <ArcadeHub />
               </div>
             </div>
           </div>

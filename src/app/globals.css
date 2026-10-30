@@ -10,6 +10,13 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
+  
+  /* Hide standard cursor on desktop when custom cursor is active */
+  @media (pointer: fine) {
+    body, button, a, input, select, textarea, [role="button"], .pixel-btn, .cursor-pointer {
+      cursor: none !important;
+    }
+  }
 }
 
 /* Retro Pixel Font Classes */

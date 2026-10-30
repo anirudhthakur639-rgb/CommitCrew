@@ -8,7 +8,7 @@ export const DailyBounties: React.FC = () => {
   const { dailyQuests, completeDailyQuest } = useGame();
 
   return (
-    <div className="bg-[#17152b] pixel-border p-4 mb-6">
+    <div className="bg-[#17152b] pixel-border p-4 shadow-[4px_4px_0_#000]">
       <div className="flex items-center justify-between mb-3 border-b-2 border-black pb-2">
         <div className="flex items-center gap-2">
           <span className="text-lg">🎯</span>
