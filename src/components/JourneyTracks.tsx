@@ -21,7 +21,7 @@ interface CourseTrack {
 }
 
 export const JourneyTracks: React.FC = () => {
-  const { openQuestModal } = useGame();
+  const { openQuestModal, setActiveTab } = useGame();
 
   const tracks: CourseTrack[] = [
     {
@@ -87,6 +87,10 @@ export const JourneyTracks: React.FC = () => {
   ];
 
   const handleOpenTrack = (track: CourseTrack) => {
+    if (track.id === "opensource-citadel") {
+      setActiveTab("git-story");
+      return;
+    }
     openQuestModal({
       id: track.id,
       title: `${track.title} Quest`,

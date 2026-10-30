@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useGame } from "@/context/GameContext";
-import { Volume2, VolumeX, Flame, Coins, Heart, Compass, Home, User, Sparkles } from "lucide-react";
+import { Volume2, VolumeX, Flame, Coins, Heart, Compass, Home, User, Sparkles, GitPullRequest } from "lucide-react";
 
 export const Navbar: React.FC = () => {
   const {
@@ -68,6 +68,19 @@ export const Navbar: React.FC = () => {
               >
                 <Compass className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Journey</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab("git-story")}
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-pixel uppercase transition-all ${
+                  activeTab === "git-story"
+                    ? "bg-[#ff8906] text-black pixel-border-sm -translate-y-0.5"
+                    : "bg-[#232144] text-[#ffd166] hover:bg-[#2e2a59] border-2 border-transparent"
+                }`}
+              >
+                <GitPullRequest className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Git Story</span>
+                <span className="font-pixel text-[7px] bg-[#ef476f] text-white px-1 ml-0.5 hidden lg:inline">NEW</span>
               </button>
 
               <button

@@ -383,3 +383,4 @@ export const WorkspaceSplitScreen: React.FC<WorkspaceSplitScreenProps> = ({
     </div>
   );
 };
+

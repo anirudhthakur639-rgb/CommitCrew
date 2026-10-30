@@ -23,8 +23,8 @@ export interface Badge {
 }
 
 interface GameContextType {
-  activeTab: "home" | "journey" | "profile";
-  setActiveTab: (tab: "home" | "journey" | "profile") => void;
+  activeTab: "home" | "journey" | "git-story" | "profile";
+  setActiveTab: (tab: "home" | "journey" | "git-story" | "profile") => void;
   level: number;
   xp: number;
   xpToNextLevel: number;
@@ -45,7 +45,7 @@ interface GameContextType {
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [activeTab, setActiveTabState] = useState<"home" | "journey" | "profile">("home");
+  const [activeTab, setActiveTabState] = useState<"home" | "journey" | "git-story" | "profile">("home");
   const [xp, setXp] = useState(420);
   const [coins, setCoins] = useState(185);
   const [streak, setStreak] = useState(7);
@@ -120,7 +120,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     },
   ]);
 
-  const setActiveTab = (tab: "home" | "journey" | "profile") => {
+  const setActiveTab = (tab: "home" | "journey" | "git-story" | "profile") => {
     soundFx.playClick();
     setActiveTabState(tab);
   };

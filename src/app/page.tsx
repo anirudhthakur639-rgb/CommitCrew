@@ -10,10 +10,11 @@ import { Leaderboard } from "@/components/Leaderboard";
 import { BadgeCabinet } from "@/components/BadgeCabinet";
 import { JourneyView } from "@/components/JourneyView";
 import { ProfileView } from "@/components/ProfileView";
+import { GitStoryViewer } from "@/components/GitStoryViewer";
 import { QuestModal } from "@/components/QuestModal";
 
 const DashboardContent: React.FC = () => {
-  const { activeTab } = useGame();
+  const { activeTab, setActiveTab } = useGame();
 
   return (
     <div className="flex-1 flex flex-col">
@@ -24,6 +25,35 @@ const DashboardContent: React.FC = () => {
           <div className="space-y-6">
             {/* Top Retro Hero Banner */}
             <HeroCabinet />
+
+            {/* Featured Git Story Mode Banner */}
+            <div 
+              onClick={() => setActiveTab("git-story")}
+              className="bg-gradient-to-r from-[#ff8906]/20 via-[#17152b] to-[#06d6a0]/20 pixel-border p-4 flex flex-col sm:flex-row items-center justify-between gap-4 cursor-pointer hover:bg-[#201d3a] transition-all group"
+            >
+              <div className="flex items-center gap-3 text-center sm:text-left">
+                <div className="w-12 h-12 bg-[#090814] pixel-border-sm flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shrink-0">
+                  🐱
+                </div>
+                <div>
+                  <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
+                    <span className="font-pixel text-[8px] bg-[#ff8906] text-black px-1.5 py-0.5 border border-black">
+                      STORY MODE
+                    </span>
+                    <span className="font-pixel text-[9px] text-[#ffd166]">
+                      GIT &amp; GITHUB WITH DORAEMON FRIENDS
+                    </span>
+                  </div>
+                  <p className="font-mono text-xs text-[#fffffe]">
+                    Watch Gian, Nobita &amp; Suneo navigate merge conflicts, staging carts &amp; pull requests in 6 interactive cutscenes!
+                  </p>
+                </div>
+              </div>
+
+              <button className="px-4 py-2 bg-[#ffd166] text-black font-pixel text-[10px] uppercase pixel-btn shrink-0 group-hover:bg-[#fff] transition-colors">
+                PLAY STORY &gt;
+              </button>
+            </div>
 
             {/* Codédex Central Dashboard Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -43,6 +73,8 @@ const DashboardContent: React.FC = () => {
         )}
 
         {activeTab === "journey" && <JourneyView />}
+
+        {activeTab === "git-story" && <GitStoryViewer />}
 
         {activeTab === "profile" && <ProfileView />}
       </main>
