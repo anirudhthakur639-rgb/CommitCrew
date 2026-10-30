@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 👾 DevForge Arcade | Retro-Gaming Coding Odyssey
 
-## Getting Started
+> **DevForge × Hacktoberfest 2026 Hack Day Bengaluru**  
+> **Theme:** Open Source for Education (Theme 02)  
+> **License:** MIT (OSI Approved)
 
-First, run the development server:
+---
+
+## 🕹️ Overview
+
+**DevForge Arcade** is an open-source, gamified coding platform inspired by **Codédex**. It reimagines developer education through a retro 8-bit arcade aesthetic, complete with chunky pixel borders, the classic **'Press Start 2P'** typography, interactive sound synthesis, and immersive RPG progression mechanics.
+
+Designed to eliminate cognitive burnout and make learning accessible across languages and devices, the platform turns abstract programming concepts into quests, stages, and boss fights.
+
+---
+
+## ✨ Features
+
+- **🎮 8-Bit Arcade Aesthetic:** Crafted with pixel-art design guidelines, authentic chunky drop-shadows (`box-shadow: 4px 4px 0px #000`), retro scanline grid, and Google's `'Press Start 2P'` font.
+- **📈 Real-Time XP Progression HUD:**
+  - Segmented retro XP meter (`420 / 500 XP`) with automatic level-up detection.
+  - Multi-stat indicators: Flame Streak (`🔥`), Arcade Coin purse (`🪙`), and Heart Lives (`❤️`).
+- **🗺️ Central Dashboard Layout (Codédex Inspired):**
+  - **Hero Arcade Cabinet:** Features NPC mascot speech bubbles and instant quest resumption.
+  - **Adventure Odyssey Tracks:** Course cartridges for *The Python Glade*, *HTML & CSS Arcana*, *JavaScript Dungeon*, and the *Open-Source Citadel (Hacktoberfest Special)*.
+  - **Daily Bounties:** Interactive micro-tasks with live XP claims and particle confetti.
+  - **Hall of Fame:** Real-time leaderboard highlighting the top hackers in the Bengaluru arena.
+  - **Trophy Vault:** Unlocked collectible pixel achievements and rare badges.
+- **🧭 Interactive Journey Map:** A winding retro pathway with connected level nodes, boss stages, and unlockable chapters.
+- **🧙‍♂️ RPG Player Card:** Customizable 8-bit avatar selector, hackathon loadout slots (mechanical keyboard, hoodie, local companion AI), and live stats.
+- **🔊 Zero-Dependency 8-Bit Sound FX:** Native Web Audio API sound generator producing square/triangle waves for authentic arcade clicks, coin pickups, and level-up fanfares (works completely offline).
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or pnpm
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/your-username/hackathon.git
+cd hackathon
+
+# Install dependencies
+npm install
+
+# Start the local development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to enter the arcade.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧠 AI Tools & Open-Weight Models Used
 
-## Learn More
+In compliance with Hacktoberfest 2026 rules:
+- **Gemma 2 (Google Open-Weight Model):** Leveraged for interactive code triage, error explanations, and quest generation.
+- **Local Inference:** Compatible with Ollama for zero-latency, offline execution in classroom environments.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📜 License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.

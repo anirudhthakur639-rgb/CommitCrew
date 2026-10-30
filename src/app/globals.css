@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --font-pixel: var(--font-press-start), "Courier New", monospace;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Retro Pixel Font Classes */
+.font-pixel {
+  font-family: var(--font-pixel), monospace;
+}
+
+/* 8-bit Pixel Borders & Shadows */
+.pixel-border {
+  border: 4px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+}
+
+.pixel-border-sm {
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.pixel-border-lg {
+  border: 4px solid #000000;
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.pixel-border-yellow {
+  border: 4px solid #000000;
+  box-shadow: 4px 4px 0px #ffd166;
+}
+
+.pixel-border-cyan {
+  border: 4px solid #000000;
+  box-shadow: 4px 4px 0px #06d6a0;
+}
+
+.pixel-border-pink {
+  border: 4px solid #000000;
+  box-shadow: 4px 4px 0px #ef476f;
+}
+
+.pixel-border-inset {
+  border: 4px solid #000000;
+  box-shadow: inset 3px 3px 0px rgba(0, 0, 0, 0.4), inset -3px -3px 0px rgba(255, 255, 255, 0.2);
+}
+
+/* Interactive Pixel Buttons */
+.pixel-btn {
+  border: 3px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  transition: all 0.08s ease-in-out;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pixel-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #000000;
+}
+
+.pixel-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px #000000;
+}
+
+/* Subtle CRT Scanlines & Arcade Background */
+.arcade-grid {
+  background-color: #0d0c1d;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+/* Retro CRT Glow animation */
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  50% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+.crt-screen {
+  animation: flicker 0.15s infinite;
+}
+
+/* Custom Pixel Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+  border-left: 2px solid #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffd166;
+  border: 2px solid #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff8906;
 }
