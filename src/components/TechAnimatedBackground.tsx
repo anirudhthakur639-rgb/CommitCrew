@@ -110,3 +110,4 @@ export const TechAnimatedBackground: React.FC = () => {
 };
 
 export const CodedexAnimatedBackground = TechAnimatedBackground;
+

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useGame } from "@/context/GameContext";
-import { Play, Sparkles, Trophy, ChevronRight, Zap, Terminal, Cpu, Activity, ShieldCheck, Radio } from "lucide-react";
+import { Play, Sparkles, Trophy, ChevronRight, Zap } from "lucide-react";
 
 export const HeroCabinet: React.FC = () => {
   const { openQuestModal, setActiveTab } = useGame();
@@ -19,111 +19,81 @@ export const HeroCabinet: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full bg-[#141226] pixel-border-lg overflow-hidden mb-8 shadow-[6px_6px_0px_#000]">
+    <div className="relative w-full bg-[#17152b] pixel-border-lg overflow-hidden mb-8 shadow-[6px_6px_0px_#000]">
       
-      {/* ================= HIGH-TECH CYBER TELEMETRY & MATRIX SCREEN ================= */}
-      <div className="relative w-full h-40 sm:h-48 border-b-4 border-black overflow-hidden bg-[#090814] flex flex-col justify-between p-3.5 sm:p-5 select-none">
+      {/* ================= TOP ANIMATED COMPUTER SCREEN VIEWPORT ================= */}
+      <div className="relative w-full h-36 sm:h-44 border-b-4 border-black overflow-hidden bg-[#157dd0]">
         
-        {/* Animated Cyber Grid Matrix Backdrop */}
+        {/* Animated Sky Layer */}
         <div 
-          className="absolute inset-0 opacity-25"
+          className="absolute inset-0 animate-sky-move pixelated"
           style={{
-            backgroundImage: `
-              linear-gradient(to right, rgba(6, 214, 160, 0.3) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(6, 214, 160, 0.3) 1px, transparent 1px)
-            `,
-            backgroundSize: "20px 20px",
+            backgroundImage: 'url("/images/codedex-bg/LandingPage_Sky.png")',
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
           }}
         />
 
-        {/* Laser Scanner Beam sweeping across screen */}
-        <div className="absolute left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#06d6a0] to-transparent animate-cyber-scan pointer-events-none drop-shadow-[0_0_10px_#06d6a0]" />
+        {/* Parallax Mountain Layer */}
+        <div 
+          className="absolute bottom-6 left-0 w-full h-24 pixelated opacity-90"
+          style={{
+            backgroundImage: 'url("/images/codedex-bg/LandingPage_Mountain.png")',
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
+          }}
+        />
 
-        {/* Top Header of Tech Viewport: System Status */}
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 border-b border-[#232044] pb-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 bg-[#06d6a0] border border-black animate-ping" />
-            <span className="font-pixel text-[9px] sm:text-[10px] text-[#06d6a0] tracking-wider uppercase font-bold drop-shadow-[0_0_6px_#06d6a0]">
-              SYSTEM: ONLINE · BENGALURU ARENA P3
-            </span>
-          </div>
+        {/* Animated Rolling Hills GIF */}
+        <div 
+          className="absolute bottom-2 left-0 w-full h-20 pixelated"
+          style={{
+            backgroundImage: 'url("/images/codedex-bg/LandingPage_Hills.gif")',
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
+          }}
+        />
 
-          <div className="flex items-center gap-2">
-            <span className="font-pixel text-[8px] bg-[#ef476f] text-white px-2 py-0.5 border border-black shadow-[2px_2px_0_#000] animate-pulse">
-              12H FINALS ACTIVE
-            </span>
-            <span className="font-pixel text-[8px] bg-[#ffd166] text-black px-2 py-0.5 border border-black shadow-[2px_2px_0_#000] hidden sm:inline-block">
-              70 TEAMS LIVE
-            </span>
-          </div>
+        {/* Animated Mascot Running in Landscape */}
+        <div 
+          className="absolute bottom-2 left-8 sm:left-16 w-16 h-20 pixelated z-10"
+          style={{
+            backgroundImage: 'url("/images/codedex-bg/LandingPage_Mascot.gif")',
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+          }}
+        />
+
+        {/* Animated Waving Grass GIF */}
+        <div 
+          className="absolute bottom-0 left-0 w-full h-8 pixelated z-10"
+          style={{
+            backgroundImage: 'url("/images/codedex-bg/LandingPage_Grass.gif")',
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
+          }}
+        />
+
+        {/* CRT Scanline & Screen Glare Effect */}
+        <div className="absolute inset-0 scanlines opacity-30 pointer-events-none z-20" />
+
+        {/* Overlay Badges on Top of Animated Computer Screen */}
+        <div className="absolute top-3 left-3 sm:left-4 z-20 flex items-center gap-2">
+          <span className="bg-[#ef476f] text-black font-pixel text-[9px] px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] animate-pulse">
+            ★ HACKTOBERFEST 2026
+          </span>
+          <span className="bg-[#ffd166] text-black font-pixel text-[8px] px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] hidden sm:inline-block">
+            BENGALURU ARENA
+          </span>
         </div>
 
-        {/* Central Tech Section: Holographic CPU Chip + Live Code Matrix Stream */}
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-4 items-center my-1">
-          
-          {/* Left: Animated Holographic CPU Core */}
-          <div className="md:col-span-6 flex items-center gap-3">
-            <div className="relative shrink-0">
-              <div className="w-14 h-14 bg-[#0d0b1f] border-2 border-[#06d6a0] pixel-border-sm flex items-center justify-center animate-chip-pulse">
-                <Cpu className="w-7 h-7 text-[#06d6a0]" />
-              </div>
-              <div className="absolute -bottom-1 -right-1 bg-[#ffd166] text-black text-[7px] font-pixel px-1 border border-black">
-                CORE
-              </div>
-            </div>
-
-            <div>
-              <div className="font-pixel text-[10px] text-white flex items-center gap-1.5">
-                <span>AI_ENGINE:</span>
-                <span className="text-[#06d6a0] drop-shadow-[0_0_6px_#06d6a0]">GEMMA-2-9B</span>
-              </div>
-              <div className="font-mono text-[11px] text-[#a7a9be] mt-0.5">
-                Local Ollama Server · Zero Latency Triage
-              </div>
-              <div className="flex items-center gap-2 mt-1 text-[9px] font-mono text-[#00f5d4]">
-                <Activity className="w-3 h-3 animate-spin" style={{ animationDuration: '4s' }} />
-                <span>INFERENCE: 142 TOKENS/SEC</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Live Audio / Network Telemetry Equalizer Bars */}
-          <div className="md:col-span-6 hidden sm:flex flex-col items-end justify-center gap-1.5">
-            <div className="flex items-center gap-1 text-[9px] font-mono text-[#ffd166]">
-              <Radio className="w-3 h-3 text-[#ff8906] animate-pulse" />
-              <span>PACKET STREAM FREQUENCY</span>
-            </div>
-
-            {/* 8-bit Equalizer Visualizer */}
-            <div className="flex items-end gap-1 h-8 bg-[#0a0818] p-1 border border-[#2b2754]">
-              {[40, 75, 55, 90, 60, 100, 45, 80, 65, 95, 70, 85].map((h, i) => (
-                <div
-                  key={i}
-                  className="w-1.5 bg-gradient-to-t from-[#06d6a0] via-[#ffd166] to-[#ef476f] transition-all duration-300"
-                  style={{
-                    height: `${h}%`,
-                    animation: `pulseGlow 1.2s infinite ease-in-out ${i * 0.1}s`,
-                  }}
-                />
-              ))}
-            </div>
-
-            <span className="text-[8px] font-pixel text-[#a7a9be]">
-              KERNEL: v6.12 · OSI LICENSED
-            </span>
-          </div>
-
+        <div className="absolute top-3 right-3 sm:right-4 z-20 bg-[#090814]/90 px-2.5 py-1 pixel-border-sm text-[10px] font-mono text-[#06d6a0] flex items-center gap-1.5 backdrop-blur-xs">
+          <span className="inline-block w-2 h-2 bg-[#06d6a0] rounded-full animate-ping" />
+          <span>70 TEAMS LIVE IN ARENA</span>
         </div>
-
-        {/* Bottom Ticker Tape */}
-        <div className="relative z-10 flex items-center justify-between text-[9px] font-mono text-[#a7a9be] border-t border-[#232044] pt-1">
-          <span className="text-[#06d6a0] font-bold">STATUS &gt; LATENCY: 8ms · NO LOSS</span>
-          <span className="text-[#ffd166]">CODE FREEZE: 10:00 AM HARD STOP</span>
-        </div>
-
       </div>
 
-      {/* ================= BOTTOM ACTION BAR: MASCOT & QUEST ACTION ================= */}
+      {/* ================= BOTTOM CONTENT: MASCOT & QUEST ACTION ================= */}
       <div className="p-5 sm:p-6 bg-[#181534]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
           

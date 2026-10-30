@@ -137,6 +137,20 @@
   box-shadow: 1px 1px 0px #000000;
 }
 
+/* In-Motion Landscape Animations */
+@keyframes skyMove {
+  0% {
+    background-position: 0px 0;
+  }
+  100% {
+    background-position: 1050px 0;
+  }
+}
+
+.animate-sky-move {
+  animation: skyMove 160s infinite linear;
+}
+
 /* High-Tech Animations (Matrix, Circuit Scans, Pulse Grid) */
 @keyframes cyberScan {
   0% {
