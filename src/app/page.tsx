@@ -11,6 +11,7 @@ import { BadgeCabinet } from "@/components/BadgeCabinet";
 import { JourneyView } from "@/components/JourneyView";
 import { ProfileView } from "@/components/ProfileView";
 import { GitStoryViewer } from "@/components/GitStoryViewer";
+import { InteractiveLessonWorkspace } from "@/components/InteractiveLessonWorkspace";
 import { QuestModal } from "@/components/QuestModal";
 
 const DashboardContent: React.FC = () => {
@@ -73,6 +74,8 @@ const DashboardContent: React.FC = () => {
         )}
 
         {activeTab === "journey" && <JourneyView />}
+
+        {activeTab === "terminal-lab" && <InteractiveLessonWorkspace />}
 
         {activeTab === "git-story" && <GitStoryViewer />}
 

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useGame } from "@/context/GameContext";
-import { Volume2, VolumeX, Flame, Coins, Heart, Compass, Home, User, Sparkles, GitPullRequest } from "lucide-react";
+import { Volume2, VolumeX, Flame, Coins, Heart, Compass, Home, User, Sparkles, GitPullRequest, Terminal } from "lucide-react";
 
 export const Navbar: React.FC = () => {
   const {
@@ -68,6 +68,18 @@ export const Navbar: React.FC = () => {
               >
                 <Compass className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Journey</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab("terminal-lab")}
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-pixel uppercase transition-all ${
+                  activeTab === "terminal-lab"
+                    ? "bg-[#06d6a0] text-black pixel-border-sm -translate-y-0.5"
+                    : "bg-[#232144] text-[#06d6a0] hover:bg-[#2e2a59] border-2 border-transparent"
+                }`}
+              >
+                <Terminal className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Terminal Lab</span>
               </button>
 
               <button

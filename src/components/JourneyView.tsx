@@ -10,7 +10,7 @@ import {
 import { WorkspaceSplitScreen, LearningModule } from "./WorkspaceSplitScreen";
 
 export const JourneyView: React.FC = () => {
-  const { addXp } = useGame();
+  const { addXp, setActiveTab } = useGame();
 
   // Full interactive learning path modules
   const [modules, setModules] = useState<LearningModule[]>([
@@ -339,6 +339,18 @@ git push origin feat/indic-tutor`,
                     <span className="w-2 h-2 bg-[#2a2845] inline-block border border-black" /> Locked
                   </span>
                 </div>
+
+                {/* Direct shortcut to Interactive Terminal Laboratory */}
+                <button
+                  onClick={() => {
+                    soundFx.playClick();
+                    setActiveTab("terminal-lab");
+                  }}
+                  className="w-full mt-2.5 py-1.5 px-2 bg-[#06d6a0] hover:bg-[#05ba8a] text-black font-pixel text-[8px] uppercase pixel-btn flex items-center justify-center gap-1.5"
+                >
+                  <Terminal className="w-3 h-3 stroke-[2.5]" />
+                  <span>SIMULATED TERMINAL LAB &gt;</span>
+                </button>
               </div>
             </div>
           </div>

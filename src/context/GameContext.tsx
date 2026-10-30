@@ -23,8 +23,8 @@ export interface Badge {
 }
 
 interface GameContextType {
-  activeTab: "home" | "journey" | "git-story" | "profile";
-  setActiveTab: (tab: "home" | "journey" | "git-story" | "profile") => void;
+  activeTab: "home" | "journey" | "git-story" | "terminal-lab" | "profile";
+  setActiveTab: (tab: "home" | "journey" | "git-story" | "terminal-lab" | "profile") => void;
   level: number;
   xp: number;
   xpToNextLevel: number;
@@ -45,7 +45,7 @@ interface GameContextType {
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [activeTab, setActiveTabState] = useState<"home" | "journey" | "git-story" | "profile">("home");
+  const [activeTab, setActiveTabState] = useState<"home" | "journey" | "git-story" | "terminal-lab" | "profile">("home");
   const [xp, setXp] = useState(420);
   const [coins, setCoins] = useState(185);
   const [streak, setStreak] = useState(7);
@@ -120,7 +120,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     },
   ]);
 
-  const setActiveTab = (tab: "home" | "journey" | "git-story" | "profile") => {
+  const setActiveTab = (tab: "home" | "journey" | "git-story" | "terminal-lab" | "profile") => {
     soundFx.playClick();
     setActiveTabState(tab);
   };
