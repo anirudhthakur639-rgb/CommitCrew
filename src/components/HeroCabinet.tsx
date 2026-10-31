@@ -19,7 +19,7 @@ export const HeroCabinet: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full bg-[#17152b] pixel-border-lg overflow-hidden mb-8 shadow-[6px_6px_0px_#000]">
+    <div className="relative w-full bg-[#17152b] pixel-border-lg overflow-hidden mb-8">
       
       {/* ================= TOP ANIMATED COMPUTER SCREEN VIEWPORT ================= */}
       <div className="relative w-full h-36 sm:h-44 border-b-4 border-black overflow-hidden bg-[#157dd0]">
@@ -102,16 +102,16 @@ export const HeroCabinet: React.FC = () => {
             
             {/* 8-Bit NPC Mascot Box */}
             <div className="relative shrink-0 select-none">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#ffd166] pixel-border flex items-center justify-center text-4xl shadow-[4px_4px_0px_#000]">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#ffd166] pixel-border-yellow flex items-center justify-center text-4xl">
                 🧙‍♂️
               </div>
-              <div className="absolute -bottom-2 -right-1 bg-[#ff8906] text-black text-[8px] font-pixel px-1 py-0.5 border border-black">
+              <div className="absolute -bottom-2 -right-1 bg-[#ff8906] text-black text-[8px] font-pixel px-1.5 py-0.5 border border-black shadow-[0_0_8px_rgba(255,137,6,0.6)] font-bold">
                 NPC
               </div>
             </div>
 
-            {/* Clear, High-Contrast Speech Bubble */}
-            <div className="relative bg-[#ffffff] text-[#0f0e17] p-3.5 sm:p-4 pixel-border flex-1 shadow-[4px_4px_0px_#000]">
+            {/* Clear, High-Contrast Speech Bubble with Glowing Border */}
+            <div className="relative bg-[#ffffff] text-[#0f0e17] p-3.5 sm:p-4 border-2 border-[#ffd166] shadow-[0_0_16px_rgba(255,209,102,0.5),3px_3px_0px_#000] flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <span className="font-pixel text-[10px] text-[#ff8906] uppercase">
                   Elder Pythoneer:
@@ -126,9 +126,9 @@ export const HeroCabinet: React.FC = () => {
             </div>
           </div>
 
-          {/* Right: Quest Action Card */}
+          {/* Right: Quest Action Card with Glowing Border */}
           <div className="lg:col-span-4 flex flex-col gap-2.5">
-            <div className="bg-[#0c0b1a] p-3.5 pixel-border-sm w-full border-2 border-black shadow-[3px_3px_0_#000]">
+            <div className="bg-[#0c0b1a] p-3.5 pixel-border-sm w-full">
               <div className="flex justify-between items-center text-[10px] font-pixel text-[#a7a9be] mb-1">
                 <span className="text-white font-bold">ACTIVE STAGE</span>
                 <span className="text-[#ffd166] font-bold">+100 XP</span>
@@ -140,7 +140,7 @@ export const HeroCabinet: React.FC = () => {
               {/* Play Button */}
               <button
                 onClick={handleStartMainQuest}
-                className="w-full py-2.5 px-4 bg-[#06d6a0] hover:bg-[#05ba8a] text-black font-pixel text-xs uppercase pixel-btn glow-cyan-hover flex items-center justify-center gap-2 font-bold"
+                className="w-full py-2.5 px-4 bg-[#06d6a0] hover:bg-[#05ba8a] text-black font-pixel text-xs uppercase pixel-btn glow-cyan-hover flex items-center justify-center gap-2 font-bold shadow-[0_0_12px_#06d6a0]"
               >
                 <Play className="w-3.5 h-3.5 fill-black" />
                 <span>RESUME QUEST</span>

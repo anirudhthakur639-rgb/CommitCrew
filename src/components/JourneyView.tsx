@@ -384,16 +384,16 @@ git push origin feat/indic-tutor`,
 
                   // Color styling based on state
                   let nodeBg = "bg-[#252342] text-gray-400";
-                  let nodeBorder = "border-black shadow-[3px_3px_0px_#000]";
+                  let nodeBorder = "border-2 border-gray-700 shadow-[0_0_10px_rgba(100,116,139,0.3),3px_3px_0px_#000]";
                   let ringEffect = "";
 
                   if (isCompleted) {
                     nodeBg = "bg-[#06d6a0] text-black";
-                    nodeBorder = "border-black shadow-[4px_4px_0px_#059669]";
+                    nodeBorder = "border-2 border-[#06d6a0] shadow-[0_0_20px_rgba(6,214,160,0.85),0_0_4px_#06d6a0,4px_4px_0px_#000]";
                   } else if (isCurrent) {
                     nodeBg = "bg-[#ffd166] text-black";
-                    nodeBorder = "border-black shadow-[4px_4px_0px_#ff8906]";
-                    ringEffect = "ring-4 ring-[#ff8906] animate-pulse";
+                    nodeBorder = "border-2 border-[#ffd166] shadow-[0_0_24px_rgba(255,209,102,0.95),0_0_6px_#ffd166,4px_4px_0px_#000]";
+                    ringEffect = "ring-4 ring-[#ff8906]/70 animate-pulse";
                   }
 
                   return (
@@ -413,9 +413,13 @@ git push origin feat/indic-tutor`,
                           onClick={() => handleNodeClick(mod)}
                           className={`inline-block p-3 sm:p-4 pixel-border-sm transition-all select-none ${
                             !isUpcoming
-                              ? "bg-[#1e1b38] hover:bg-[#28254c] hover:-translate-y-1 cursor-pointer"
-                              : "bg-[#0d0c1d] opacity-50 cursor-not-allowed"
-                          } ${isCurrent ? "border-2 border-[#ffd166] shadow-[4px_4px_0px_#ffd166]" : ""}`}
+                              ? isCurrent
+                                ? "bg-[#1e1b38] border-2 border-[#ffd166] shadow-[0_0_16px_rgba(255,209,102,0.6),3px_3px_0px_#000] cursor-pointer hover:-translate-y-1"
+                                : isCompleted
+                                ? "bg-[#1e1b38] border-2 border-[#06d6a0] shadow-[0_0_14px_rgba(6,214,160,0.5),3px_3px_0px_#000] cursor-pointer hover:-translate-y-1"
+                                : "bg-[#1e1b38] hover:bg-[#28254c] hover:-translate-y-1 cursor-pointer"
+                              : "bg-[#0d0c1d] opacity-50 cursor-not-allowed border-gray-800"
+                          }`}
                         >
                           <div className={`flex items-center gap-2 mb-1 ${isLeft ? "justify-end" : "justify-start"}`}>
                             <span

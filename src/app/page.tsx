@@ -29,15 +29,15 @@ const DashboardContent: React.FC = () => {
             {/* Featured Git Story Mode Spotlight */}
             <div 
               onClick={() => setActiveTab("git-story")}
-              className="bg-[#141228]/90 border-2 border-[#ff8906]/60 hover:border-[#ff8906] p-3 sm:p-3.5 pixel-border-sm flex flex-col sm:flex-row items-center justify-between gap-3 cursor-pointer hover:bg-[#1c183d] transition-all group shadow-[3px_3px_0_#000]"
+              className="bg-[#141228]/95 border-2 border-[#ff8906] p-3 sm:p-3.5 pixel-border-sm flex flex-col sm:flex-row items-center justify-between gap-3 cursor-pointer hover:bg-[#1c183d] transition-all group shadow-[0_0_18px_rgba(255,137,6,0.5),0_0_2px_#ff8906,3px_3px_0_#000]"
             >
               <div className="flex items-center gap-3 text-center sm:text-left">
-                <div className="w-10 h-10 bg-[#090814] border-2 border-[#ff8906] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shrink-0">
+                <div className="w-10 h-10 bg-[#090814] border-2 border-[#ff8906] shadow-[0_0_10px_rgba(255,137,6,0.5)] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shrink-0">
                   🐱
                 </div>
                 <div>
                   <div className="flex items-center justify-center sm:justify-start gap-2">
-                    <span className="font-pixel text-[8px] bg-[#ff8906] text-black px-1.5 py-0.5 border border-black font-bold">
+                    <span className="font-pixel text-[8px] bg-[#ff8906] text-black px-1.5 py-0.5 border border-black font-bold shadow-[0_0_8px_rgba(255,137,6,0.5)]">
                       STORY MODE
                     </span>
                     <span className="font-pixel text-[9px] text-[#ffd166]">
@@ -50,7 +50,7 @@ const DashboardContent: React.FC = () => {
                 </div>
               </div>
 
-              <button className="px-3.5 py-1.5 bg-[#ffd166] text-black font-pixel text-[9px] uppercase pixel-btn shrink-0 group-hover:bg-[#fff] transition-colors font-bold">
+              <button className="px-3.5 py-1.5 bg-[#ffd166] text-black font-pixel text-[9px] uppercase pixel-btn shrink-0 group-hover:bg-[#fff] transition-colors font-bold shadow-[0_0_12px_rgba(255,209,102,0.6)]">
                 PLAY STORY &gt;
               </button>
             </div>
@@ -96,7 +96,7 @@ const DashboardContent: React.FC = () => {
             CodeQuest · Built with 8-bit love for open-source learners · Hacktoberfest 2026
           </div>
 
-          <div className="font-pixel text-[9px] text-[#ef476f] bg-[#141226] px-2.5 py-1 border border-black">
+          <div className="font-pixel text-[9px] text-[#ef476f] bg-[#141226] px-2.5 py-1 border border-[#ef476f] shadow-[0_0_10px_rgba(239,71,111,0.5),2px_2px_0_#000]">
             INSERT COIN [1P]
           </div>
         </div>

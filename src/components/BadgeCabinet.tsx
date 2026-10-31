@@ -28,11 +28,11 @@ export const BadgeCabinet: React.FC = () => {
             title={`${badge.name}: ${badge.description}`}
             className={`p-2.5 pixel-border-sm flex flex-col items-center text-center transition-all ${
               badge.unlocked
-                ? "bg-[#232144] hover:bg-[#2d2955] cursor-pointer"
-                : "bg-[#0f0e17] opacity-50 grayscale"
+                ? "bg-[#232144] hover:bg-[#2d2955] border-[#ef476f]/70 shadow-[0_0_12px_rgba(239,71,111,0.4),2px_2px_0_#000] cursor-pointer hover:-translate-y-0.5"
+                : "bg-[#0f0e17] opacity-50 grayscale border-gray-800"
             }`}
           >
-            <div className="w-9 h-9 bg-[#0d0c1d] pixel-border-sm flex items-center justify-center text-xl mb-1.5 relative">
+            <div className="w-9 h-9 bg-[#0d0c1d] pixel-border-sm flex items-center justify-center text-xl mb-1.5 relative border-[#ffd166]/60 shadow-[0_0_8px_rgba(255,209,102,0.3)]">
               {badge.icon}
               {!badge.unlocked && (
                 <div className="absolute inset-0 bg-black/60 flex items-center justify-center">

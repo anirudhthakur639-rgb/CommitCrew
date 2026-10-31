@@ -22,7 +22,7 @@ export const Leaderboard: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#17152b] pixel-border p-4 shadow-[4px_4px_0_#000]">
+    <div className="bg-[#17152b] pixel-border p-4">
       <div className="flex items-center justify-between mb-3 border-b-2 border-black pb-2">
         <div className="flex items-center gap-2">
           <Trophy className="w-4 h-4 text-[#ffd166]" />
@@ -30,7 +30,7 @@ export const Leaderboard: React.FC = () => {
             Hall of Fame
           </h3>
         </div>
-        <span className="font-mono text-[10px] text-[#a7a9be]">
+        <span className="font-mono text-[10px] text-[#06d6a0] bg-[#090814] px-1.5 py-0.5 border border-[#06d6a0]/60 shadow-[0_0_8px_rgba(6,214,160,0.3)]">
           LIVE STANDINGS
         </span>
       </div>
@@ -41,8 +41,8 @@ export const Leaderboard: React.FC = () => {
             key={user.rank}
             className={`flex items-center justify-between p-2 pixel-border-sm transition-all ${
               user.isCurrentUser
-                ? "bg-[#2d2955] border-[#ffd166]"
-                : "bg-[#0f0e17] hover:bg-[#1f1c3a]"
+                ? "bg-[#2d2955] border-2 border-[#ffd166] shadow-[0_0_14px_rgba(255,209,102,0.5),2px_2px_0_#000]"
+                : "bg-[#0f0e17] hover:bg-[#1f1c3a] border-gray-800"
             }`}
           >
             <div className="flex items-center gap-2.5">

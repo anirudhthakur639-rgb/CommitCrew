@@ -25,7 +25,7 @@ export const ProfileView: React.FC = () => {
           
           {/* Avatar Display & Customizer */}
           <div className="flex flex-col items-center">
-            <div className="w-28 h-28 bg-[#ffd166] pixel-border flex items-center justify-center text-6xl shadow-[4px_4px_0px_#000] mb-3 select-none">
+            <div className="w-28 h-28 bg-[#ffd166] pixel-border-yellow flex items-center justify-center text-6xl mb-3 select-none">
               {selectedAvatar}
             </div>
 

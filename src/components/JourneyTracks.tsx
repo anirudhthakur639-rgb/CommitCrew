@@ -124,15 +124,16 @@ export const JourneyTracks: React.FC = () => {
           return (
             <div
               key={track.id}
-              className="group relative bg-[#17152b] pixel-border transition-transform hover:-translate-y-1 flex flex-col justify-between overflow-hidden"
+              className="group relative bg-[#17152b] transition-all duration-200 hover:-translate-y-1.5 flex flex-col justify-between overflow-hidden"
               style={{
-                boxShadow: `4px 4px 0px ${track.accentHex}`,
+                border: `2px solid ${track.accentHex}`,
+                boxShadow: `0 0 16px ${track.accentHex}55, 0 0 3px ${track.accentHex}, 4px 4px 0px #000000`,
               }}
             >
               {/* Retro Cartridge Grip Pins (Top) */}
-              <div className="h-2 bg-[#090814] w-full flex items-center justify-around px-4 border-b border-black">
+              <div className="h-2.5 bg-[#090814] w-full flex items-center justify-around px-4 border-b-2 border-black">
                 {Array.from({ length: 8 }).map((_, i) => (
-                  <span key={i} className="w-1.5 h-1 bg-[#37335e] block" />
+                  <span key={i} className="w-1.5 h-1.5 bg-[#37335e] block shadow-[0_0_4px_rgba(255,255,255,0.2)]" />
                 ))}
               </div>
 
@@ -142,8 +143,8 @@ export const JourneyTracks: React.FC = () => {
                   {/* Badge & XP */}
                   <div className="flex items-center justify-between mb-3">
                     <span 
-                      className="font-pixel text-[9px] px-2 py-0.5 border border-black bg-[#0d0c1d]"
-                      style={{ color: track.accentHex }}
+                      className="font-pixel text-[9px] px-2 py-0.5 border border-black bg-[#0d0c1d] shadow-[0_0_8px_rgba(0,0,0,0.5)]"
+                      style={{ color: track.accentHex, borderColor: `${track.accentHex}88` }}
                     >
                       {track.levelBadge}
                     </span>
@@ -156,7 +157,11 @@ export const JourneyTracks: React.FC = () => {
                   {/* Title & Icon */}
                   <div className="flex items-start gap-3 mb-2">
                     <div 
-                      className="w-12 h-12 shrink-0 bg-[#0d0c1d] pixel-border-sm flex items-center justify-center text-2xl group-hover:scale-110 transition-transform"
+                      className="w-12 h-12 shrink-0 bg-[#0d0c1d] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform"
+                      style={{
+                        border: `2px solid ${track.accentHex}`,
+                        boxShadow: `0 0 10px ${track.accentHex}55, 2px 2px 0 #000`,
+                      }}
                     >
                       {track.icon}
                     </div>

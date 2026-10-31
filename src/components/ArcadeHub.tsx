@@ -17,13 +17,13 @@ export const ArcadeHub: React.FC = () => {
 
   return (
     <div className="w-full space-y-3">
-      {/* Sleek Uncluttered Tab Switcher */}
+      {/* Sleek Glowing Tab Switcher Container */}
       <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#100e24] pixel-border-sm">
         <button
           onClick={() => handleTabChange("bounties")}
           className={`py-2 px-1 text-center font-pixel text-[8px] sm:text-[9px] uppercase transition-all flex items-center justify-center gap-1 ${
             activeTab === "bounties"
-              ? "bg-[#06d6a0] text-black font-bold shadow-[2px_2px_0_#000]"
+              ? "bg-[#06d6a0] text-black font-bold border border-black shadow-[0_0_12px_#06d6a0,2px_2px_0_#000]"
               : "text-[#a7a9be] hover:text-white hover:bg-[#1a1738]"
           }`}
         >
@@ -35,7 +35,7 @@ export const ArcadeHub: React.FC = () => {
           onClick={() => handleTabChange("leaderboard")}
           className={`py-2 px-1 text-center font-pixel text-[8px] sm:text-[9px] uppercase transition-all flex items-center justify-center gap-1 ${
             activeTab === "leaderboard"
-              ? "bg-[#ffd166] text-black font-bold shadow-[2px_2px_0_#000]"
+              ? "bg-[#ffd166] text-black font-bold border border-black shadow-[0_0_12px_#ffd166,2px_2px_0_#000]"
               : "text-[#a7a9be] hover:text-white hover:bg-[#1a1738]"
           }`}
         >
@@ -47,7 +47,7 @@ export const ArcadeHub: React.FC = () => {
           onClick={() => handleTabChange("trophies")}
           className={`py-2 px-1 text-center font-pixel text-[8px] sm:text-[9px] uppercase transition-all flex items-center justify-center gap-1 ${
             activeTab === "trophies"
-              ? "bg-[#ef476f] text-black font-bold shadow-[2px_2px_0_#000]"
+              ? "bg-[#ef476f] text-black font-bold border border-black shadow-[0_0_12px_#ef476f,2px_2px_0_#000]"
               : "text-[#a7a9be] hover:text-white hover:bg-[#1a1738]"
           }`}
         >

@@ -226,7 +226,7 @@ export const GitStoryViewer: React.FC = () => {
     <div className="w-full space-y-5 animate-in fade-in duration-200">
       
       {/* Top Header: Simple Episode Breadcrumb & Stepper */}
-      <div className="bg-[#141226] pixel-border-lg p-4 sm:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-[4px_4px_0_#000]">
+      <div className="bg-[#141226] pixel-border-lg p-4 sm:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="font-pixel text-[8px] bg-[#ff8906] text-black px-1.5 py-0.5 border border-black font-bold">
@@ -283,7 +283,7 @@ export const GitStoryViewer: React.FC = () => {
         <div className="lg:col-span-7 space-y-4">
           
           {/* Visual Cutscene Theater Box */}
-          <div className="bg-[#17152b] pixel-border p-4 sm:p-5 shadow-[4px_4px_0_#000]">
+          <div className="bg-[#17152b] pixel-border p-4 sm:p-5">
             
             {/* Cutscene Header & Character Lineup */}
             <div className="flex items-center justify-between mb-4 pb-2 border-b-2 border-black">
@@ -305,7 +305,7 @@ export const GitStoryViewer: React.FC = () => {
                       title={`${dlg.speaker} (${dlg.role})`}
                       className={`w-7 h-7 sm:w-8 sm:h-8 text-sm sm:text-base pixel-border-sm flex items-center justify-center transition-all ${
                         isActive
-                          ? "bg-[#ffd166] scale-110 shadow-[0_0_10px_#ffd166]"
+                          ? "bg-[#ffd166] scale-110 shadow-[0_0_12px_#ffd166] border-[#ffd166]"
                           : "bg-[#090814] opacity-50 hover:opacity-100"
                       }`}
                     >
@@ -330,10 +330,13 @@ export const GitStoryViewer: React.FC = () => {
               /* Single Animated Dialogue Card with Controls */
               <div className="space-y-4">
                 
-                {/* Speaker Card */}
+                {/* Speaker Card with Dynamic Glow */}
                 <div 
                   className="bg-[#121024] p-4 pixel-border relative"
-                  style={{ borderColor: activeDialogue.bubbleColor }}
+                  style={{ 
+                    borderColor: activeDialogue.bubbleColor,
+                    boxShadow: `0 0 18px ${activeDialogue.bubbleColor}66, 0 0 3px ${activeDialogue.bubbleColor}, 4px 4px 0 #000`
+                  }}
                 >
                   {/* Speaker Top Bar */}
                   <div className="flex items-center justify-between mb-3 border-b border-[#2b2752] pb-2">
@@ -428,7 +431,7 @@ export const GitStoryViewer: React.FC = () => {
           </div>
 
           {/* Simple Visual Concept Card */}
-          <div className="bg-[#17152b] pixel-border p-4 shadow-[4px_4px_0_#000]">
+          <div className="bg-[#17152b] pixel-border p-4">
             <div className="flex items-center gap-2 mb-2 pb-1 border-b border-black">
               <Layers className="w-4 h-4 text-[#06d6a0]" />
               <h3 className="font-pixel text-xs text-[#06d6a0] uppercase">
@@ -461,7 +464,7 @@ export const GitStoryViewer: React.FC = () => {
         <div className="lg:col-span-5 space-y-4">
           
           {/* Interactive Simulated Terminal */}
-          <div className="bg-[#17152b] pixel-border overflow-hidden shadow-[4px_4px_0_#000]">
+          <div className="bg-[#17152b] pixel-border overflow-hidden">
             
             {/* Terminal Top Window Bar */}
             <div className="bg-[#090814] border-b-4 border-black p-2.5 flex items-center justify-between">
@@ -510,7 +513,7 @@ export const GitStoryViewer: React.FC = () => {
               <button
                 onClick={runSimulation}
                 disabled={simRunning}
-                className="w-full py-2 bg-[#06d6a0] hover:bg-[#05ba8a] text-black font-pixel text-[9px] uppercase pixel-btn flex items-center justify-center gap-2 font-bold"
+                className="w-full py-2 bg-[#06d6a0] hover:bg-[#05ba8a] text-black font-pixel text-[9px] uppercase pixel-btn flex items-center justify-center gap-2 font-bold shadow-[0_0_12px_#06d6a0]"
               >
                 <Play className="w-3.5 h-3.5 fill-black" />
                 <span>{simRunning ? "EXECUTING SPELL..." : "RUN TERMINAL SIMULATION"}</span>
@@ -519,7 +522,7 @@ export const GitStoryViewer: React.FC = () => {
           </div>
 
           {/* Episode Checkpoint Quiz */}
-          <div className="bg-[#17152b] pixel-border p-4 shadow-[4px_4px_0_#000]">
+          <div className="bg-[#17152b] pixel-border p-4">
             <div className="flex items-center justify-between mb-2.5 pb-2 border-b-2 border-black">
               <div className="flex items-center gap-1.5">
                 <Award className="w-4 h-4 text-[#ffd166]" />
@@ -544,7 +547,7 @@ export const GitStoryViewer: React.FC = () => {
                   onClick={() => handleSelectQuiz(opt.id)}
                   className={`w-full text-left p-2 font-mono text-xs pixel-btn flex items-center justify-between transition-all ${
                     selectedQuizOption === opt.id
-                      ? "bg-[#ffd166] text-black font-bold -translate-y-0.5"
+                      ? "bg-[#ffd166] text-black font-bold -translate-y-0.5 shadow-[0_0_10px_#ffd166]"
                       : "bg-[#141226] hover:bg-[#232048] text-white"
                   }`}
                 >
@@ -566,14 +569,14 @@ export const GitStoryViewer: React.FC = () => {
 
             {/* Feedback Alerts */}
             {quizStatus === "success" && (
-              <div className="p-2.5 bg-[#06d6a0]/20 border border-[#06d6a0] text-[#06d6a0] font-pixel text-[9px] flex items-center gap-2 mb-3 animate-in zoom-in-95">
+              <div className="p-2.5 bg-[#06d6a0]/20 border border-[#06d6a0] text-[#06d6a0] font-pixel text-[9px] flex items-center gap-2 mb-3 animate-in zoom-in-95 shadow-[0_0_12px_rgba(6,214,160,0.5)]">
                 <Sparkles className="w-3.5 h-3.5 shrink-0" />
                 <span>EPISODE CLEARED! +{currentChapter.xpReward} XP AWARDED!</span>
               </div>
             )}
 
             {quizStatus === "wrong" && (
-              <div className="p-2.5 bg-[#ef476f]/20 border border-[#ef476f] text-[#ef476f] font-pixel text-[9px] flex items-center gap-2 mb-3">
+              <div className="p-2.5 bg-[#ef476f]/20 border border-[#ef476f] text-[#ef476f] font-pixel text-[9px] flex items-center gap-2 mb-3 shadow-[0_0_12px_rgba(239,71,111,0.5)]">
                 <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                 <span>INCORRECT. CHECK THE STORY CUTSCENE AND RETRY!</span>
               </div>
@@ -585,9 +588,9 @@ export const GitStoryViewer: React.FC = () => {
               disabled={selectedQuizOption === null || quizStatus === "success"}
               className={`w-full py-2 font-pixel text-[9px] pixel-btn flex items-center justify-center gap-1.5 font-bold ${
                 quizStatus === "success"
-                  ? "bg-[#06d6a0] text-black cursor-default"
+                  ? "bg-[#06d6a0] text-black cursor-default shadow-[0_0_12px_#06d6a0]"
                   : selectedQuizOption !== null
-                  ? "bg-[#ffd166] hover:bg-[#e6bd5c] text-black"
+                  ? "bg-[#ffd166] hover:bg-[#e6bd5c] text-black shadow-[0_0_12px_#ffd166]"
                   : "bg-gray-700 text-gray-400 cursor-not-allowed"
               }`}
             >
@@ -600,7 +603,7 @@ export const GitStoryViewer: React.FC = () => {
       </div>
 
       {/* Bottom Episode Navigation Bar */}
-      <div className="bg-[#141226] pixel-border p-3.5 flex items-center justify-between gap-3 shadow-[4px_4px_0_#000]">
+      <div className="bg-[#141226] pixel-border p-3.5 flex items-center justify-between gap-3">
         <button
           onClick={handlePrevChapter}
           disabled={currentIdx === 0}
