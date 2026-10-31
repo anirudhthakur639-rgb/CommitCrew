@@ -53,7 +53,7 @@ npm install
 npm run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to enter the arcade.
+Visit https://opensourceeducation.netlify.app to enter the arcade.
 
 ---
 
