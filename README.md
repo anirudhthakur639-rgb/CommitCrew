@@ -2,7 +2,7 @@
 
 > **DevForge × Hacktoberfest 2026 Hack Day Bengaluru**  
 > **Theme:** Open Source for Education (Theme 02)  
-> **License:** MIT (OSI Approved)
+
 
 ---
 
