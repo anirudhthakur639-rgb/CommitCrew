@@ -57,14 +57,12 @@ Visit [http://localhost:3000](http://localhost:3000) to enter the arcade.
 
 ---
 
-## 🧠 AI Tools & Open-Weight Models Used
+## 🧠 AI Tools Used
 
-In compliance with Hacktoberfest 2026 rules:
-- **Gemma 2 (Google Open-Weight Model):** Leveraged for interactive code triage, error explanations, and quest generation.
-- **Local Inference:** Compatible with Ollama for zero-latency, offline execution in classroom environments.
+In compliance with Hacktoberfest 2026 rules, we disclose the AI tools used to build this project:
 
+- **Antigravity:** AI-assisted coding and code generation inside the development environment.
+- **Claude (Anthropic):** Code review, debugging help, and explanations of errors.
+- **ChatGPT (OpenAI):** Brainstorming, writing quest content, and drafting documentation.
 ---
 
-## 📜 License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
