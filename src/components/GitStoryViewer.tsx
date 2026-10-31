@@ -111,39 +111,106 @@ export const GitStoryViewer: React.FC = () => {
   return (
     <div className="max-w-[860px] mx-auto space-y-5 pb-12 font-sans text-[#eef0ff]">
 
-      {/* ================= 1. TOP HERO BANNER ================= */}
-      <div className="relative rounded-2xl p-7 sm:p-9 text-center bg-gradient-to-br from-[#6d4aff] to-[#1fb579] pixel-border-lg overflow-hidden shadow-[0_0_24px_rgba(6,214,160,0.5),4px_4px_0_#000]">
+      {/* ================= 1. TOP HERO BANNER WITH SOOTHING NATURE IN-MOTION BACKGROUND ================= */}
+      <div className="relative rounded-2xl pixel-border-lg overflow-hidden shadow-[0_0_24px_rgba(6,214,160,0.5),4px_4px_0_#000] min-h-[175px] sm:min-h-[200px] flex flex-col justify-between p-6 sm:p-8 bg-[#157dd0]">
         
-        {/* Quick Chapter Navigation Pill Selector */}
-        <div className="flex items-center justify-center gap-1.5 mb-3 flex-wrap">
-          {gitStoryChapters.map((ch, idx) => {
-            const isCurrent = idx === currentIdx;
-            const isCleared = completedChapters[ch.id];
-            return (
-              <button
-                key={ch.id}
-                onClick={() => handleJumpToChapter(idx)}
-                className={`px-2 py-0.5 rounded font-pixel text-[8px] transition-all flex items-center gap-1 ${
-                  isCurrent
-                    ? "bg-[#ffd166] text-black font-bold shadow-[0_0_10px_#ffd166] scale-105"
-                    : isCleared
-                    ? "bg-[#2ee59d]/80 text-black font-bold"
-                    : "bg-[#0b1020]/60 text-white/80 hover:bg-[#0b1020] hover:text-white"
-                }`}
-              >
-                <span>CH {idx + 1}</span>
-                {isCleared && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-              </button>
-            );
-          })}
-        </div>
+        {/* Layer 1: Animated Sky & Moving Clouds Layer */}
+        <div 
+          className="absolute inset-0 animate-sky-move pixelated pointer-events-none"
+          style={{
+            backgroundImage: 'url("/images/codedex-bg/LandingPage_Sky.png")',
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
+          }}
+        />
 
-        <h1 className="font-pixel text-xl sm:text-2xl text-white font-bold tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
-          {currentChapter.heroTitle}
-        </h1>
-        <p className="text-base sm:text-lg text-[#eef0ff]/95 font-medium mt-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
-          {currentChapter.heroSubtitle}
-        </p>
+        {/* Layer 2: Parallax Mountain Layer */}
+        <div 
+          className="absolute bottom-6 left-0 w-full h-28 pixelated opacity-90 pointer-events-none"
+          style={{
+            backgroundImage: 'url("/images/codedex-bg/LandingPage_Mountain.png")',
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
+          }}
+        />
+
+        {/* Layer 3: Animated Rolling Green Hills GIF */}
+        <div 
+          className="absolute bottom-2 left-0 w-full h-24 pixelated opacity-95 pointer-events-none"
+          style={{
+            backgroundImage: 'url("/images/codedex-bg/LandingPage_Hills.gif")',
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
+          }}
+        />
+
+        {/* Layer 4: Animated Mascot Runner in Nature */}
+        <div 
+          className="absolute bottom-2 right-6 sm:right-12 w-14 h-16 pixelated z-10 pointer-events-none opacity-90"
+          style={{
+            backgroundImage: 'url("/images/codedex-bg/LandingPage_Mascot.gif")',
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+          }}
+        />
+
+        {/* Layer 5: Animated Waving Grass GIF */}
+        <div 
+          className="absolute -bottom-1 left-0 w-full h-12 pixelated z-10 pointer-events-none"
+          style={{
+            backgroundImage: 'url("/images/codedex-bg/LandingPage_Grass.gif")',
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
+          }}
+        />
+
+        {/* Layer 6: Calming Vignette Mist & Readability Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1020]/75 via-[#0b1020]/50 to-[#0b1020]/80 backdrop-blur-[1px] pointer-events-none z-10" />
+
+        {/* Layer 7: Subtle CRT scanlines */}
+        <div className="absolute inset-0 scanlines opacity-20 pointer-events-none z-10" />
+
+        {/* Content (Z-Index 20 above the animated nature background) */}
+        <div className="relative z-20 text-center flex flex-col items-center justify-center space-y-2">
+          
+          {/* Quick Chapter Navigation Pill Selector */}
+          <div className="flex items-center justify-center gap-1.5 mb-1 flex-wrap">
+            {gitStoryChapters.map((ch, idx) => {
+              const isCurrent = idx === currentIdx;
+              const isCleared = completedChapters[ch.id];
+              return (
+                <button
+                  key={ch.id}
+                  onClick={() => handleJumpToChapter(idx)}
+                  className={`px-2.5 py-1 rounded font-pixel text-[8px] transition-all flex items-center gap-1 cursor-pointer ${
+                    isCurrent
+                      ? "bg-[#ffd166] text-black font-bold shadow-[0_0_12px_#ffd166] scale-105 border border-black"
+                      : isCleared
+                      ? "bg-[#2ee59d] text-black font-bold shadow-[0_0_8px_rgba(46,229,157,0.4)]"
+                      : "bg-[#0b1020]/80 text-white/90 hover:bg-[#0b1020] hover:text-white border border-[#262d55]"
+                  }`}
+                >
+                  <span>CH {idx + 1}</span>
+                  {isCleared && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                </button>
+              );
+            })}
+          </div>
+
+          <h1 className="font-pixel text-xl sm:text-2xl text-white font-bold tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+            {currentChapter.heroTitle}
+          </h1>
+          <p className="text-base sm:text-lg text-[#eef0ff] font-medium mt-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] max-w-xl">
+            {currentChapter.heroSubtitle}
+          </p>
+
+          <div className="pt-1">
+            <span className="font-pixel text-[8px] text-[#2ee59d] bg-[#0b1020]/80 px-2.5 py-0.5 rounded-full border border-[#2ee59d]/50 shadow-[0_0_8px_rgba(46,229,157,0.3)]">
+              🌿 CALM NATURE MODE · 60 FPS
+            </span>
+          </div>
+
+        </div>
       </div>
 
       {/* ================= 2. PROGRESS BAR ================= */}
