@@ -7,33 +7,34 @@ import { soundFx } from "@/utils/sound";
 import confetti from "canvas-confetti";
 import { 
   ArrowLeft, ArrowRight, Terminal, Sparkles, CheckCircle2, 
-  AlertCircle, Play, Award, MessageSquareCode, Layers, 
-  GitBranch, Users, HelpCircle, ChevronRight, Eye, RefreshCw
+  AlertCircle, Play, Award, ChevronRight, RefreshCw, Check
 } from "lucide-react";
 
 export const GitStoryViewer: React.FC = () => {
   const { addXp, setActiveTab } = useGame();
   const [currentIdx, setCurrentIdx] = useState<number>(0);
   const [activeDialogueIdx, setActiveDialogueIdx] = useState<number>(0);
-  const [viewFullScript, setViewFullScript] = useState<boolean>(false);
 
   // Terminal simulator state
   const [simRunning, setSimRunning] = useState<boolean>(false);
   const [hasRunSim, setHasRunSim] = useState<boolean>(false);
 
   // Quiz state
-  const [selectedQuizOption, setSelectedQuizOption] = useState<number | null>(null);
+  const [selectedQuizOption, setSelectedQuizOption] = useState<string | null>(null);
   const [quizStatus, setQuizStatus] = useState<"idle" | "success" | "wrong">("idle");
   const [completedChapters, setCompletedChapters] = useState<Record<string, boolean>>({});
 
   const currentChapter = gitStoryChapters[currentIdx];
   const activeDialogue: CharacterDialogue = currentChapter.dialogues[activeDialogueIdx] || currentChapter.dialogues[0];
 
+  const progressPercent = Math.round(((currentIdx + 1) / gitStoryChapters.length) * 100);
+
   const handleNextChapter = () => {
     if (currentIdx < gitStoryChapters.length - 1) {
       soundFx.playClick();
       setCurrentIdx((i) => i + 1);
       resetChapterState();
+      window.scrollTo({ top: 120, behavior: "smooth" });
     }
   };
 
@@ -42,6 +43,7 @@ export const GitStoryViewer: React.FC = () => {
       soundFx.playClick();
       setCurrentIdx((i) => i - 1);
       resetChapterState();
+      window.scrollTo({ top: 120, behavior: "smooth" });
     }
   };
 
@@ -49,6 +51,7 @@ export const GitStoryViewer: React.FC = () => {
     soundFx.playClick();
     setCurrentIdx(idx);
     resetChapterState();
+    window.scrollTo({ top: 120, behavior: "smooth" });
   };
 
   const resetChapterState = () => {
@@ -57,23 +60,6 @@ export const GitStoryViewer: React.FC = () => {
     setHasRunSim(false);
     setSelectedQuizOption(null);
     setQuizStatus("idle");
-  };
-
-  // Step through story cutscene dialogues
-  const handleNextDialogue = () => {
-    soundFx.playClick();
-    if (activeDialogueIdx < currentChapter.dialogues.length - 1) {
-      setActiveDialogueIdx((prev) => prev + 1);
-    } else {
-      setActiveDialogueIdx(0); // loop back
-    }
-  };
-
-  const handlePrevDialogue = () => {
-    soundFx.playClick();
-    if (activeDialogueIdx > 0) {
-      setActiveDialogueIdx((prev) => prev - 1);
-    }
   };
 
   const handleSelectCharacter = (idx: number) => {
@@ -88,26 +74,28 @@ export const GitStoryViewer: React.FC = () => {
       setSimRunning(false);
       setHasRunSim(true);
       soundFx.playCoin();
-    }, 450);
+    }, 400);
   };
 
-  const handleSelectQuiz = (idx: number) => {
+  const handleSelectQuiz = (optId: string) => {
+    if (quizStatus === "success") return;
     soundFx.playClick();
-    setSelectedQuizOption(idx);
+    setSelectedQuizOption(optId);
     setQuizStatus("idle");
   };
 
   const handleSubmitQuiz = () => {
     if (selectedQuizOption === null) return;
 
-    if (currentChapter.quiz.options[selectedQuizOption].isCorrect) {
+    const chosen = currentChapter.quiz.options.find((o) => o.id === selectedQuizOption);
+    if (chosen && chosen.isCorrect) {
       setQuizStatus("success");
       soundFx.playSuccess();
       confetti({
-        particleCount: 75,
-        spread: 60,
+        particleCount: 80,
+        spread: 65,
         origin: { y: 0.65 },
-        colors: ["#ffd166", "#06d6a0", "#ff8906"],
+        colors: ["#2ee59d", "#5aa8ff", "#ffd166", "#ff6b9a"],
       });
 
       if (!completedChapters[currentChapter.id]) {
@@ -116,523 +104,352 @@ export const GitStoryViewer: React.FC = () => {
       }
     } else {
       setQuizStatus("wrong");
-      soundFx.playClick();
-    }
-  };
-
-  // Render a clean visual 8-bit diagram for each chapter
-  const renderVisualDiagram = () => {
-    switch (currentChapter.chapterNumber) {
-      case 1:
-        return (
-          <div className="bg-[#090814] p-3.5 pixel-border-sm space-y-2.5 font-mono text-xs">
-            <div className="text-[#ef476f] flex items-center gap-2">
-              <span className="font-pixel text-[8px] bg-[#ef476f] text-black px-1.5">BEFORE GIT</span>
-              <span className="truncate">app.txt ➔ app_final.txt ➔ app_FINAL_really.txt 💥 (Lost Work)</span>
-            </div>
-            <div className="text-[#06d6a0] flex items-center gap-2">
-              <span className="font-pixel text-[8px] bg-[#06d6a0] text-black px-1.5">WITH GIT</span>
-              <span className="truncate">[● Init] ──➔ [● Commit 1] ──➔ [● Working State] (Safe)</span>
-            </div>
-          </div>
-        );
-      case 2:
-        return (
-          <div className="bg-[#090814] p-3 pixel-border-sm grid grid-cols-3 gap-2 font-mono text-[10px] text-center">
-            <div className="bg-[#141226] p-2 border border-[#ef476f]">
-              <span className="text-xl block mb-1">🦍</span>
-              <span className="text-white font-bold block">Gian</span>
-              <span className="text-[#a7a9be] text-[8px]">Team Lead</span>
-            </div>
-            <div className="bg-[#141226] p-2 border border-[#ffd166]">
-              <span className="text-xl block mb-1">👓</span>
-              <span className="text-white font-bold block">Nobita</span>
-              <span className="text-[#a7a9be] text-[8px]">Frontend</span>
-            </div>
-            <div className="bg-[#141226] p-2 border border-[#00bbf9]">
-              <span className="text-xl block mb-1">🦊</span>
-              <span className="text-white font-bold block">Suneo</span>
-              <span className="text-[#a7a9be] text-[8px]">Backend</span>
-            </div>
-          </div>
-        );
-      case 3:
-        return (
-          <div className="bg-[#090814] p-3 pixel-border-sm flex items-center justify-between font-mono text-[10px] text-center gap-1">
-            <div className="bg-[#1c183d] p-2 border border-[#ffd166] flex-1">
-              <span className="font-bold text-white block">1. Working Dir</span>
-              <span className="text-[#a7a9be] text-[8px]">Store Aisles</span>
-            </div>
-            <span className="text-[#06d6a0] font-bold text-xs">➔</span>
-            <div className="bg-[#1c183d] p-2 border border-[#06d6a0] flex-1">
-              <span className="font-bold text-[#06d6a0] block">2. Staging Cart</span>
-              <span className="text-[#a7a9be] text-[8px]">git add .</span>
-            </div>
-            <span className="text-[#06d6a0] font-bold text-xs">➔</span>
-            <div className="bg-[#1c183d] p-2 border border-[#00bbf9] flex-1">
-              <span className="font-bold text-[#00bbf9] block">3. Local Repo</span>
-              <span className="text-[#a7a9be] text-[8px]">git commit</span>
-            </div>
-          </div>
-        );
-      case 4:
-        return (
-          <div className="bg-[#090814] p-3 pixel-border-sm font-mono text-xs space-y-1.5">
-            <div className="text-[#06d6a0] flex items-center gap-2">
-              <span className="font-pixel text-[8px] bg-[#06d6a0] text-black px-1.5">MAIN</span>
-              <span>● ──────── ● ──────── ● (Stable Production)</span>
-            </div>
-            <div className="text-[#ffd166] flex items-center gap-2 pl-6">
-              <span className="font-pixel text-[8px] bg-[#ffd166] text-black px-1.5">FEATURE</span>
-              <span>╰──── ● ──── ● (Nobita&apos;s Experiment)</span>
-            </div>
-          </div>
-        );
-      case 5:
-        return (
-          <div className="bg-[#090814] p-3 pixel-border-sm font-mono text-[11px] border border-[#ef476f]">
-            <div className="text-[#ef476f]">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD (Gian&apos;s Branch)</div>
-            <div className="text-white pl-4 font-bold">Total Score: 100</div>
-            <div className="text-[#ffd166]">=======</div>
-            <div className="text-white pl-4 font-bold">Total Score: 200</div>
-            <div className="text-[#06d6a0]">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-scoring (Nobita&apos;s Branch)</div>
-          </div>
-        );
-      case 6:
-        return (
-          <div className="bg-[#090814] p-3 pixel-border-sm flex items-center justify-between font-mono text-[10px] text-center gap-1.5">
-            <div className="bg-[#181534] p-2 border border-white flex-1">
-              <span className="block font-bold text-white">Local Code</span>
-              <span className="text-[#a7a9be] text-[8px]">git push</span>
-            </div>
-            <span className="text-[#ff8906] font-bold text-xs">➔</span>
-            <div className="bg-[#181534] p-2 border border-[#ff8906] flex-1">
-              <span className="block font-bold text-[#ff8906]">GitHub Cloud</span>
-              <span className="text-[#a7a9be] text-[8px]">Pull Request</span>
-            </div>
-            <span className="text-[#06d6a0] font-bold text-xs">➔</span>
-            <div className="bg-[#181534] p-2 border border-[#06d6a0] flex-1">
-              <span className="block font-bold text-[#06d6a0]">Merged!</span>
-              <span className="text-[#a7a9be] text-[8px]">Code Review ✓</span>
-            </div>
-          </div>
-        );
-      default:
-        return null;
+      soundFx.playWrong();
     }
   };
 
   return (
-    <div className="w-full space-y-5 animate-in fade-in duration-200">
-      
-      {/* Top Header: Simple Episode Breadcrumb & Stepper */}
-      <div className="bg-[#141226] pixel-border-lg p-4 sm:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="font-pixel text-[8px] bg-[#ff8906] text-black px-1.5 py-0.5 border border-black font-bold">
-              GIT STORY MODE
-            </span>
-            <span className="font-pixel text-[8px] bg-[#ffd166] text-black px-1.5 py-0.5 border border-black font-bold">
-              EPISODE 0{currentChapter.chapterNumber} OF 0{gitStoryChapters.length}
-            </span>
-            {completedChapters[currentChapter.id] && (
-              <span className="font-pixel text-[8px] bg-[#06d6a0] text-black px-1.5 py-0.5 border border-black flex items-center gap-1 font-bold animate-in zoom-in-95">
-                <CheckCircle2 className="w-2.5 h-2.5 stroke-[3]" />
-                CLEARED
-              </span>
-            )}
-          </div>
-          <h1 className="font-pixel text-xs sm:text-base text-white tracking-wide">
-            {currentChapter.title}
-          </h1>
-          <p className="font-mono text-xs text-[#a7a9be] mt-0.5">
-            {currentChapter.tagline}
-          </p>
-        </div>
+    <div className="max-w-[860px] mx-auto space-y-5 pb-12 font-sans text-[#eef0ff]">
 
-        {/* Episode Selector Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 md:pb-0">
+      {/* ================= 1. TOP HERO BANNER ================= */}
+      <div className="relative rounded-2xl p-7 sm:p-9 text-center bg-gradient-to-br from-[#6d4aff] to-[#1fb579] pixel-border-lg overflow-hidden shadow-[0_0_24px_rgba(6,214,160,0.5),4px_4px_0_#000]">
+        
+        {/* Quick Chapter Navigation Pill Selector */}
+        <div className="flex items-center justify-center gap-1.5 mb-3 flex-wrap">
           {gitStoryChapters.map((ch, idx) => {
             const isCurrent = idx === currentIdx;
-            const isDone = completedChapters[ch.id];
-
+            const isCleared = completedChapters[ch.id];
             return (
               <button
                 key={ch.id}
                 onClick={() => handleJumpToChapter(idx)}
-                title={`Episode ${ch.chapterNumber}: ${ch.title}`}
-                className={`w-8 h-8 sm:w-9 sm:h-9 font-pixel text-[10px] pixel-btn flex items-center justify-center transition-all ${
+                className={`px-2 py-0.5 rounded font-pixel text-[8px] transition-all flex items-center gap-1 ${
                   isCurrent
-                    ? "bg-[#ffd166] text-black font-bold -translate-y-0.5 shadow-[2px_2px_0_#000]"
-                    : isDone
-                    ? "bg-[#06d6a0] text-black"
-                    : "bg-[#1f1c3a] text-[#a7a9be] hover:text-white hover:bg-[#2b2752]"
+                    ? "bg-[#ffd166] text-black font-bold shadow-[0_0_10px_#ffd166] scale-105"
+                    : isCleared
+                    ? "bg-[#2ee59d]/80 text-black font-bold"
+                    : "bg-[#0b1020]/60 text-white/80 hover:bg-[#0b1020] hover:text-white"
                 }`}
               >
-                {isDone ? "✓" : `0${ch.chapterNumber}`}
+                <span>CH {idx + 1}</span>
+                {isCleared && <Check className="w-2.5 h-2.5 stroke-[3]" />}
               </button>
             );
           })}
         </div>
+
+        <h1 className="font-pixel text-xl sm:text-2xl text-white font-bold tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+          {currentChapter.heroTitle}
+        </h1>
+        <p className="text-base sm:text-lg text-[#eef0ff]/95 font-medium mt-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+          {currentChapter.heroSubtitle}
+        </p>
       </div>
 
-      {/* Main Two-Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-        
-        {/* ================= LEFT COLUMN: CINEMATIC STORY THEATER (7 COLS) ================= */}
-        <div className="lg:col-span-7 space-y-4">
-          
-          {/* Visual Cutscene Theater Box */}
-          <div className="bg-[#17152b] pixel-border p-4 sm:p-5">
-            
-            {/* Cutscene Header & Character Lineup */}
-            <div className="flex items-center justify-between mb-4 pb-2 border-b-2 border-black">
-              <div className="flex items-center gap-2">
-                <MessageSquareCode className="w-4 h-4 text-[#ffd166]" />
-                <span className="font-pixel text-xs text-[#ffd166] uppercase">
-                  Story Cutscene
-                </span>
-              </div>
-
-              {/* Character Avatar Picker / Lineup */}
-              <div className="flex items-center gap-1 sm:gap-2">
-                {currentChapter.dialogues.map((dlg, idx) => {
-                  const isActive = idx === activeDialogueIdx;
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => handleSelectCharacter(idx)}
-                      title={`${dlg.speaker} (${dlg.role})`}
-                      className={`w-7 h-7 sm:w-8 sm:h-8 text-sm sm:text-base pixel-border-sm flex items-center justify-center transition-all ${
-                        isActive
-                          ? "bg-[#ffd166] scale-110 shadow-[0_0_12px_#ffd166] border-[#ffd166]"
-                          : "bg-[#090814] opacity-50 hover:opacity-100"
-                      }`}
-                    >
-                      {dlg.avatar}
-                    </button>
-                  );
-                })}
-
-                <button
-                  onClick={() => setViewFullScript(!viewFullScript)}
-                  title={viewFullScript ? "Switch to single scene" : "View full script"}
-                  className="ml-1 p-1.5 bg-[#090814] hover:bg-[#232048] pixel-border-sm text-[#a7a9be] text-[10px] font-mono flex items-center gap-1"
-                >
-                  <Eye className="w-3 h-3 text-[#06d6a0]" />
-                  <span className="hidden sm:inline font-pixel text-[7px]">{viewFullScript ? "SCENE" : "SCRIPT"}</span>
-                </button>
-              </div>
-            </div>
-
-            {/* View Mode: Either Interactive Single Dialogue Theater OR Full Script */}
-            {!viewFullScript ? (
-              /* Single Animated Dialogue Card with Controls */
-              <div className="space-y-4">
-                
-                {/* Speaker Card with Dynamic Glow */}
-                <div 
-                  className="bg-[#121024] p-4 pixel-border relative"
-                  style={{ 
-                    borderColor: activeDialogue.bubbleColor,
-                    boxShadow: `0 0 18px ${activeDialogue.bubbleColor}66, 0 0 3px ${activeDialogue.bubbleColor}, 4px 4px 0 #000`
-                  }}
-                >
-                  {/* Speaker Top Bar */}
-                  <div className="flex items-center justify-between mb-3 border-b border-[#2b2752] pb-2">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-10 h-10 bg-[#090814] pixel-border-sm flex items-center justify-center text-2xl">
-                        {activeDialogue.avatar}
-                      </div>
-                      <div>
-                        <div className="font-pixel text-xs text-white">
-                          {activeDialogue.speaker}
-                        </div>
-                        <div className="text-[10px] font-mono text-[#a7a9be]">
-                          {activeDialogue.role}
-                        </div>
-                      </div>
-                    </div>
-
-                    <span 
-                      className="font-pixel text-[8px] px-2 py-0.5 border border-black uppercase"
-                      style={{ backgroundColor: activeDialogue.bubbleColor, color: '#000' }}
-                    >
-                      {activeDialogue.mood}
-                    </span>
-                  </div>
-
-                  {/* Character Dialogue Speech */}
-                  <p className="font-mono text-xs sm:text-sm text-white leading-relaxed font-medium">
-                    &quot;{activeDialogue.message}&quot;
-                  </p>
-
-                  {/* Step Indicators */}
-                  <div className="flex items-center justify-between mt-4 pt-2 border-t border-[#232048] text-[9px] font-mono text-[#a7a9be]">
-                    <span>Line {activeDialogueIdx + 1} of {currentChapter.dialogues.length}</span>
-                    <span className="font-pixel text-[8px] text-[#ffd166]">CLICK NEXT TO ADVANCE</span>
-                  </div>
-                </div>
-
-                {/* Dialogue Stepping Buttons */}
-                <div className="flex items-center justify-between gap-2">
-                  <button
-                    onClick={handlePrevDialogue}
-                    disabled={activeDialogueIdx === 0}
-                    className={`px-3 py-1.5 font-pixel text-[9px] pixel-btn flex items-center gap-1.5 ${
-                      activeDialogueIdx > 0
-                        ? "bg-[#232048] text-white hover:bg-[#343063]"
-                        : "bg-gray-800 text-gray-500 cursor-not-allowed"
-                    }`}
-                  >
-                    <span>◀ PREV LINE</span>
-                  </button>
-
-                  <div className="flex gap-1.5">
-                    {currentChapter.dialogues.map((_, i) => (
-                      <span
-                        key={i}
-                        className={`w-2 h-2 border border-black inline-block ${
-                          i === activeDialogueIdx ? "bg-[#ffd166] scale-125" : "bg-[#252248]"
-                        }`}
-                      />
-                    ))}
-                  </div>
-
-                  <button
-                    onClick={handleNextDialogue}
-                    className="px-4 py-1.5 bg-[#06d6a0] hover:bg-[#05ba8a] text-black font-pixel text-[9px] pixel-btn flex items-center gap-1.5 font-bold"
-                  >
-                    <span>{activeDialogueIdx === currentChapter.dialogues.length - 1 ? "REPEAT ↻" : "NEXT LINE ▶"}</span>
-                  </button>
-                </div>
-
-              </div>
-            ) : (
-              /* Full Script List (Expanded) */
-              <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
-                {currentChapter.dialogues.map((dlg, idx) => (
-                  <div key={idx} className="bg-[#121024] p-3 pixel-border-sm flex items-start gap-3">
-                    <span className="text-xl shrink-0 mt-0.5">{dlg.avatar}</span>
-                    <div>
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <span className="font-pixel text-[10px] text-[#ffd166]">{dlg.speaker}</span>
-                        <span className="text-[9px] font-mono text-[#a7a9be]">({dlg.role})</span>
-                      </div>
-                      <p className="font-mono text-xs text-white leading-relaxed">
-                        &quot;{dlg.message}&quot;
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-          </div>
-
-          {/* Simple Visual Concept Card */}
-          <div className="bg-[#17152b] pixel-border p-4">
-            <div className="flex items-center gap-2 mb-2 pb-1 border-b border-black">
-              <Layers className="w-4 h-4 text-[#06d6a0]" />
-              <h3 className="font-pixel text-xs text-[#06d6a0] uppercase">
-                Visual Concept Diagram
-              </h3>
-            </div>
-            
-            {/* The Dynamic 8-bit Diagram */}
-            <div className="mb-3">
-              {renderVisualDiagram()}
-            </div>
-
-            {/* Doraemon Analogy Key Takeaway */}
-            <div className="bg-[#121024] p-3 pixel-border-sm border-l-4 border-l-[#ffd166] text-xs font-mono">
-              <span className="font-pixel text-[9px] text-[#ffd166] block mb-1">
-                💡 {currentChapter.analogyStory.heading}
-              </span>
-              <p className="text-white leading-relaxed mb-2">
-                {currentChapter.analogyStory.narrative}
-              </p>
-              <div className="text-[#06d6a0] font-bold text-[11px]">
-                &gt; {currentChapter.analogyStory.moral}
-              </div>
-            </div>
-          </div>
-
+      {/* ================= 2. PROGRESS BAR ================= */}
+      <div className="space-y-1.5">
+        <div className="h-2.5 bg-[#1b2140] rounded-full overflow-hidden border border-[#262d55]">
+          <div 
+            className="h-full bg-gradient-to-r from-[#2ee59d] via-[#5aa8ff] to-[#ffd166] transition-all duration-300"
+            style={{ width: `${progressPercent}%` }}
+          />
         </div>
 
-        {/* ================= RIGHT COLUMN: INTERACTIVE TERMINAL & QUIZ (5 COLS) ================= */}
-        <div className="lg:col-span-5 space-y-4">
-          
-          {/* Interactive Simulated Terminal */}
-          <div className="bg-[#17152b] pixel-border overflow-hidden">
-            
-            {/* Terminal Top Window Bar */}
-            <div className="bg-[#090814] border-b-4 border-black p-2.5 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="flex gap-1.5">
-                  <span className="w-2 h-2 bg-[#ef476f] border border-black inline-block" />
-                  <span className="w-2 h-2 bg-[#ffd166] border border-black inline-block" />
-                  <span className="w-2 h-2 bg-[#06d6a0] border border-black inline-block" />
-                </div>
-                <span className="font-mono text-[10px] text-[#a7a9be] ml-1">
-                  bash · nobita@school-project
-                </span>
-              </div>
-              <span className="font-pixel text-[8px] text-[#06d6a0]">CLI</span>
-            </div>
+        <div className="flex items-center justify-between text-sm text-[#a3a9cf]">
+          <span>
+            Lesson {currentChapter.chapterNumber} of {gitStoryChapters.length} · {currentChapter.lessonTitle}
+          </span>
+          <span className="font-pixel text-[9px] text-[#ffd166] flex items-center gap-1 bg-[#151a33] px-2 py-0.5 rounded border border-[#262d55]">
+            +{currentChapter.xpReward} XP
+            {completedChapters[currentChapter.id] && (
+              <span className="text-[#2ee59d] font-bold ml-1">✓ CLEARED</span>
+            )}
+          </span>
+        </div>
+      </div>
 
-            {/* Terminal Body */}
-            <div className="p-3.5 space-y-3 font-mono text-xs">
-              
-              {/* Command Display */}
-              <div className="bg-[#090814] p-3 pixel-border-sm border-2 border-black">
-                <div className="text-[10px] text-[#a7a9be] mb-1">
-                  # Executable spell for Episode {currentChapter.chapterNumber}:
-                </div>
-                <div className="text-[#38ef7d] font-bold flex items-center gap-2 text-xs">
-                  <span className="text-[#ffd166]">$</span>
-                  <span>{currentChapter.simulation.command}</span>
-                </div>
-
-                {hasRunSim && (
-                  <div className="mt-2.5 pt-2.5 border-t border-[#232044] text-[#ffd166] whitespace-pre-wrap text-[11px] animate-in fade-in">
-                    {currentChapter.simulation.output}
-                  </div>
-                )}
-              </div>
-
-              {/* Feedback description */}
-              {hasRunSim && (
-                <div className="text-[11px] font-mono text-white bg-[#141226] p-2.5 pixel-border-sm border-l-2 border-l-[#06d6a0]">
-                  <span className="text-[#06d6a0] font-bold block mb-0.5">✓ Git Output Explanation:</span>
-                  {currentChapter.simulation.explanation}
-                </div>
-              )}
-
-              {/* Run Button */}
-              <button
-                onClick={runSimulation}
-                disabled={simRunning}
-                className="w-full py-2 bg-[#06d6a0] hover:bg-[#05ba8a] text-black font-pixel text-[9px] uppercase pixel-btn flex items-center justify-center gap-2 font-bold shadow-[0_0_12px_#06d6a0]"
-              >
-                <Play className="w-3.5 h-3.5 fill-black" />
-                <span>{simRunning ? "EXECUTING SPELL..." : "RUN TERMINAL SIMULATION"}</span>
-              </button>
-            </div>
+      {/* ================= 3. STORY DIALOGUE BOX (.box .talk) ================= */}
+      <div 
+        className="bg-[#151a33] pixel-border rounded-xl p-5 sm:p-6 transition-colors"
+        style={{ borderLeft: `6px solid ${activeDialogue.bubbleColor || "#ff6b9a"}` }}
+      >
+        <div className="flex items-center justify-between mb-3 border-b border-[#262d55] pb-2">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">{activeDialogue.avatar}</span>
+            <span 
+              className="font-bold text-sm sm:text-base"
+              style={{ color: activeDialogue.bubbleColor || "#ff6b9a" }}
+            >
+              {activeDialogue.speaker} ({activeDialogue.role}):
+            </span>
           </div>
 
-          {/* Episode Checkpoint Quiz */}
-          <div className="bg-[#17152b] pixel-border p-4">
-            <div className="flex items-center justify-between mb-2.5 pb-2 border-b-2 border-black">
-              <div className="flex items-center gap-1.5">
-                <Award className="w-4 h-4 text-[#ffd166]" />
-                <h3 className="font-pixel text-xs text-[#ffd166] uppercase">
-                  Episode Checkpoint
-                </h3>
-              </div>
-              <span className="font-pixel text-[9px] text-[#ffd166] bg-[#090814] px-1.5 py-0.5 border border-black">
-                +{currentChapter.xpReward} XP
-              </span>
-            </div>
+          {/* Interactive Character Pickers */}
+          <div className="flex items-center gap-1.5">
+            {currentChapter.dialogues.map((dlg, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleSelectCharacter(idx)}
+                title={`${dlg.speaker} (${dlg.role})`}
+                className={`w-7 h-7 rounded text-sm flex items-center justify-center transition-all ${
+                  idx === activeDialogueIdx
+                    ? "bg-[#ffd166] scale-110 shadow-[0_0_8px_#ffd166]"
+                    : "bg-[#1b2140] opacity-60 hover:opacity-100"
+                }`}
+              >
+                {dlg.avatar}
+              </button>
+            ))}
+          </div>
+        </div>
 
-            <p className="font-mono text-xs text-white font-bold mb-3 leading-snug">
-              ❓ {currentChapter.quiz.question}
-            </p>
+        <p className="text-base sm:text-lg text-[#eef0ff] leading-relaxed italic">
+          &quot;{activeDialogue.message}&quot;
+        </p>
+      </div>
 
-            {/* Quiz Choice Buttons */}
-            <div className="space-y-2 mb-3">
-              {currentChapter.quiz.options.map((opt) => (
-                <button
-                  key={opt.id}
-                  onClick={() => handleSelectQuiz(opt.id)}
-                  className={`w-full text-left p-2 font-mono text-xs pixel-btn flex items-center justify-between transition-all ${
-                    selectedQuizOption === opt.id
-                      ? "bg-[#ffd166] text-black font-bold -translate-y-0.5 shadow-[0_0_10px_#ffd166]"
-                      : "bg-[#141226] hover:bg-[#232048] text-white"
-                  }`}
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="font-pixel text-[8px] opacity-70">
-                      [{String.fromCharCode(65 + opt.id)}]
-                    </span>
-                    <span>{opt.text}</span>
-                  </span>
+      {/* ================= 4. THE PROBLEM BOX (.box) ================= */}
+      <div className="bg-[#151a33] pixel-border rounded-xl p-5 sm:p-6 space-y-3">
+        <h2 className="font-pixel text-sm sm:text-base text-white flex items-center gap-2">
+          <span>😬</span>
+          <span>{currentChapter.problem.heading}</span>
+        </h2>
+        
+        <p className="text-[#eef0ff] text-base">
+          {currentChapter.problem.description}
+        </p>
 
-                  {selectedQuizOption === opt.id && (
-                    <span className="font-pixel text-[7px] bg-black text-[#ffd166] px-1">
-                      CHOSEN
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {/* Feedback Alerts */}
-            {quizStatus === "success" && (
-              <div className="p-2.5 bg-[#06d6a0]/20 border border-[#06d6a0] text-[#06d6a0] font-pixel text-[9px] flex items-center gap-2 mb-3 animate-in zoom-in-95 shadow-[0_0_12px_rgba(6,214,160,0.5)]">
-                <Sparkles className="w-3.5 h-3.5 shrink-0" />
-                <span>EPISODE CLEARED! +{currentChapter.xpReward} XP AWARDED!</span>
-              </div>
-            )}
-
-            {quizStatus === "wrong" && (
-              <div className="p-2.5 bg-[#ef476f]/20 border border-[#ef476f] text-[#ef476f] font-pixel text-[9px] flex items-center gap-2 mb-3 shadow-[0_0_12px_rgba(239,71,111,0.5)]">
-                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                <span>INCORRECT. CHECK THE STORY CUTSCENE AND RETRY!</span>
-              </div>
-            )}
-
-            {/* Submit Button */}
-            <button
-              onClick={handleSubmitQuiz}
-              disabled={selectedQuizOption === null || quizStatus === "success"}
-              className={`w-full py-2 font-pixel text-[9px] pixel-btn flex items-center justify-center gap-1.5 font-bold ${
-                quizStatus === "success"
-                  ? "bg-[#06d6a0] text-black cursor-default shadow-[0_0_12px_#06d6a0]"
-                  : selectedQuizOption !== null
-                  ? "bg-[#ffd166] hover:bg-[#e6bd5c] text-black shadow-[0_0_12px_#ffd166]"
-                  : "bg-gray-700 text-gray-400 cursor-not-allowed"
-              }`}
+        {/* Bad file name chips */}
+        <div className="flex flex-wrap gap-2.5 my-3">
+          {currentChapter.problem.badChips.map((chip, idx) => (
+            <span 
+              key={idx} 
+              className="px-3 py-1.5 rounded-lg border border-[#ff6b9a] text-[#ff6b9a] bg-[#ff6b9a]/15 font-mono text-sm shadow-[0_0_8px_rgba(255,107,154,0.25)] flex items-center gap-1"
             >
-              <span>{quizStatus === "success" ? "STAGE COMPLETED" : "VERIFY ANSWER"}</span>
+              <span className="text-xs">⚠️</span>
+              <span>{chip}</span>
+            </span>
+          ))}
+        </div>
+
+        <p>
+          <mark className="bg-[#ffd166] text-[#111] font-bold px-2 py-1 rounded text-sm sm:text-base inline-block shadow-[0_0_8px_rgba(255,209,102,0.4)]">
+            {currentChapter.problem.takeaway}
+          </mark>
+        </p>
+      </div>
+
+      {/* ================= 5. THE GIT FIX BOX (.box) ================= */}
+      <div className="bg-[#151a33] pixel-border rounded-xl p-5 sm:p-6 space-y-4">
+        <h2 className="font-pixel text-sm sm:text-base text-white flex items-center gap-2">
+          <span>✅</span>
+          <span>{currentChapter.solution.heading}</span>
+        </h2>
+
+        <p className="text-[#eef0ff] text-base leading-relaxed">
+          Git saves{" "}
+          <mark className="bg-[#2ee59d] text-[#111] px-1.5 py-0.5 rounded font-bold shadow-[0_0_8px_rgba(46,229,157,0.4)]">
+            snapshots
+          </mark>{" "}
+          of your project. Three commands do most of the work:
+        </p>
+
+        {/* 3 Step Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
+          {currentChapter.solution.steps.map((st) => {
+            const isBlue = st.colorType === "blue";
+            const isYellow = st.colorType === "yellow";
+            const isGreen = st.colorType === "green";
+
+            const borderClass = isBlue
+              ? "border-t-[#5aa8ff] shadow-[0_0_12px_rgba(90,168,255,0.25)]"
+              : isYellow
+              ? "border-t-[#ffd166] shadow-[0_0_12px_rgba(255,209,102,0.25)]"
+              : "border-t-[#2ee59d] shadow-[0_0_12px_rgba(46,229,157,0.25)]";
+
+            const numBg = isBlue
+              ? "bg-[#5aa8ff] text-[#0b1020]"
+              : isYellow
+              ? "bg-[#ffd166] text-[#0b1020]"
+              : "bg-[#2ee59d] text-[#0b1020]";
+
+            return (
+              <div 
+                key={st.num}
+                className={`bg-[#1b2140] border-t-4 ${borderClass} rounded-xl p-4 flex flex-col justify-between`}
+              >
+                <div>
+                  <div className={`w-9 h-9 rounded-full ${numBg} font-pixel text-xs font-bold flex items-center justify-center mb-2.5`}>
+                    {st.num}
+                  </div>
+                  <h3 className="font-pixel text-xs sm:text-sm text-white leading-snug">
+                    {st.cmd}
+                  </h3>
+                  <p className="text-[#a3a9cf] text-xs sm:text-sm mt-1.5 leading-relaxed">
+                    {st.desc}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Tip Box (.note) */}
+        <div className="bg-[#ffd166]/10 border-l-4 border-l-[#ffd166] rounded-xl p-4 text-sm sm:text-base text-[#eef0ff] shadow-[0_0_10px_rgba(255,209,102,0.15)] leading-relaxed">
+          💡 <strong>{currentChapter.solution.note}</strong>
+        </div>
+
+        {/* Interactive Terminal Playground (Simulation) */}
+        <div className="bg-[#0b1020] rounded-xl p-3.5 border border-[#262d55] space-y-2 mt-4">
+          <div className="flex items-center justify-between text-xs text-[#a3a9cf] font-mono border-b border-[#262d55] pb-1.5">
+            <span className="flex items-center gap-1.5">
+              <Terminal className="w-3.5 h-3.5 text-[#2ee59d]" />
+              <span>Interactive CLI Playground</span>
+            </span>
+            <span className="text-[10px] text-[#ffd166] font-pixel">BASH</span>
+          </div>
+
+          <div className="font-mono text-xs sm:text-sm text-[#2ee59d] py-1 flex items-center gap-2">
+            <span className="text-[#ffd166]">$</span>
+            <span className="font-bold">{currentChapter.simulation.command}</span>
+          </div>
+
+          {hasRunSim && (
+            <div className="pt-2 border-t border-[#262d55] text-xs font-mono text-[#ffd166] whitespace-pre-wrap animate-in fade-in">
+              {currentChapter.simulation.output}
+            </div>
+          )}
+
+          <div className="pt-2 flex items-center justify-between gap-3 flex-wrap">
+            <p className="text-[11px] text-[#a3a9cf] font-mono">
+              {currentChapter.simulation.explanation}
+            </p>
+            <button
+              onClick={runSimulation}
+              disabled={simRunning}
+              className="px-3.5 py-1.5 bg-[#2ee59d] hover:bg-[#25be82] text-black font-pixel text-[9px] rounded-lg font-bold flex items-center gap-1.5 transition-all shadow-[0_0_10px_rgba(46,229,157,0.4)] cursor-pointer"
+            >
+              <Play className="w-3 h-3 fill-black" />
+              <span>{simRunning ? "EXECUTING..." : "RUN SIMULATION"}</span>
             </button>
           </div>
-
         </div>
 
       </div>
 
-      {/* Bottom Episode Navigation Bar */}
-      <div className="bg-[#141226] pixel-border p-3.5 flex items-center justify-between gap-3">
-        <button
-          onClick={handlePrevChapter}
-          disabled={currentIdx === 0}
-          className={`px-3.5 py-2 font-pixel text-[9px] pixel-btn flex items-center gap-1.5 ${
-            currentIdx > 0
-              ? "bg-[#232048] hover:bg-[#343063] text-white"
-              : "bg-gray-800 text-gray-500 cursor-not-allowed"
-          }`}
-        >
-          <ArrowLeft className="w-3 h-3" />
-          <span>PREV EPISODE</span>
-        </button>
-
-        <div className="font-pixel text-[9px] text-[#ffd166] hidden sm:block">
-          CHAPTER {currentChapter.chapterNumber} / {gitStoryChapters.length}
+      {/* ================= 6. CHECKPOINT QUIZ BOX (.box) ================= */}
+      <div className="bg-[#151a33] pixel-border rounded-xl p-5 sm:p-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="font-pixel text-sm sm:text-base text-white flex items-center gap-2">
+            <span>🧠</span>
+            <span>Checkpoint</span>
+          </h2>
+          <span className="font-pixel text-[9px] text-[#ffd166] bg-[#0b1020] px-2 py-1 rounded border border-[#262d55]">
+            +{currentChapter.xpReward} XP
+          </span>
         </div>
 
+        <p className="text-base sm:text-lg text-[#eef0ff] font-medium leading-relaxed">
+          {currentChapter.quiz.question}
+        </p>
+
+        {/* Quiz Option Radio List (.opt) */}
+        <div className="space-y-2.5">
+          {currentChapter.quiz.options.map((opt) => {
+            const isSelected = selectedQuizOption === opt.id;
+            return (
+              <label
+                key={opt.id}
+                onClick={() => handleSelectQuiz(opt.id)}
+                className={`block p-3.5 sm:p-4 rounded-xl border cursor-pointer transition-all ${
+                  isSelected
+                    ? "border-[#ffd166] bg-[#1b2140] shadow-[0_0_14px_rgba(255,209,102,0.35)]"
+                    : "border-[#262d55] bg-[#151a33] hover:border-[#5aa8ff] hover:bg-[#1b2140]"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    name="quiz-answer"
+                    value={opt.id}
+                    checked={isSelected}
+                    onChange={() => handleSelectQuiz(opt.id)}
+                    className="w-4 h-4 accent-[#2ee59d] cursor-pointer"
+                  />
+                  <span className="text-sm sm:text-base text-[#eef0ff]">
+                    <strong className="text-[#ffd166] mr-1">{opt.letter}.</strong> {opt.text}
+                  </span>
+                </div>
+              </label>
+            );
+          })}
+        </div>
+
+        {/* Feedback Alerts */}
+        {quizStatus === "success" && (
+          <div className="p-3 bg-[#2ee59d]/20 border border-[#2ee59d] text-[#2ee59d] rounded-xl font-pixel text-[10px] flex items-center gap-2 shadow-[0_0_12px_rgba(46,229,157,0.4)] animate-in zoom-in-95">
+            <Sparkles className="w-4 h-4 shrink-0" />
+            <span>EPISODE PASSED! +{currentChapter.xpReward} XP AWARDED!</span>
+          </div>
+        )}
+
+        {quizStatus === "wrong" && (
+          <div className="p-3 bg-[#ff6b9a]/20 border border-[#ff6b9a] text-[#ff6b9a] rounded-xl font-pixel text-[10px] flex items-center gap-2 shadow-[0_0_12px_rgba(255,107,154,0.4)] animate-shake">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>INCORRECT. HINT: {currentChapter.quiz.hint}</span>
+          </div>
+        )}
+
+        {/* Action Button (.btn) */}
         <button
-          onClick={handleNextChapter}
-          disabled={currentIdx === gitStoryChapters.length - 1}
-          className={`px-4 py-2 font-pixel text-[9px] pixel-btn flex items-center gap-1.5 font-bold ${
-            currentIdx < gitStoryChapters.length - 1
-              ? "bg-[#06d6a0] hover:bg-[#05ba8a] text-black"
-              : "bg-gray-800 text-gray-500 cursor-not-allowed"
+          onClick={handleSubmitQuiz}
+          disabled={selectedQuizOption === null || quizStatus === "success"}
+          className={`btn inline-block bg-gradient-to-r from-[#2ee59d] to-[#5aa8ff] text-[#0b1020] font-pixel text-xs sm:text-sm px-7 py-3.5 rounded-full font-bold cursor-pointer shadow-[0_0_16px_rgba(46,229,157,0.5)] transition-opacity ${
+            quizStatus === "success"
+              ? "opacity-80 cursor-default"
+              : selectedQuizOption !== null
+              ? "hover:opacity-90"
+              : "opacity-50 cursor-not-allowed"
           }`}
         >
-          <span>NEXT EPISODE</span>
-          <ArrowRight className="w-3 h-3" />
+          {quizStatus === "success" ? "Checkpoint Cleared ✓" : "Check answer"}
         </button>
+      </div>
+
+      {/* ================= 7. BOTTOM NAVIGATION (.next) ================= */}
+      <div className="flex items-center justify-between flex-wrap gap-4 pt-3 border-t border-[#262d55]">
+        <div>
+          {currentIdx > 0 ? (
+            <button
+              onClick={handlePrevChapter}
+              className="text-[#a3a9cf] hover:text-white font-medium text-sm flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Previous: Lesson {currentIdx}</span>
+            </button>
+          ) : (
+            <span className="text-[#a3a9cf]/40 text-sm">First Lesson</span>
+          )}
+        </div>
+
+        <div>
+          {currentIdx < gitStoryChapters.length - 1 ? (
+            <button
+              onClick={handleNextChapter}
+              className="text-[#2ee59d] hover:text-[#5aa8ff] font-bold text-sm sm:text-base flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <span>Next: Lesson {currentIdx + 2} · {currentChapter.nextLessonTitle}</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          ) : (
+            <button
+              onClick={() => setActiveTab("journey")}
+              className="text-[#ffd166] hover:text-white font-bold text-sm flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <span>Course Completed! Continue Journey →</span>
+            </button>
+          )}
+        </div>
       </div>
 
     </div>
