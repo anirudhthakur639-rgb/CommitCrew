@@ -8,7 +8,7 @@
 
 ## 🕹️ Overview
 
-**DevForge Arcade** is an open-source, gamified coding platform inspired by **Codédex**. It reimagines developer education through a retro 8-bit arcade aesthetic, complete with chunky pixel borders, the classic **'Press Start 2P'** typography, interactive sound synthesis, and immersive RPG progression mechanics.
+**CodeQuest** is an open-source, gamified coding platform . It reimagines developer education through a retro 8-bit arcade aesthetic, complete with chunky pixel borders, the classic **'Press Start 2P'** typography, interactive sound synthesis, and immersive RPG progression mechanics.
 
 Designed to eliminate cognitive burnout and make learning accessible across languages and devices, the platform turns abstract programming concepts into quests, stages, and boss fights.
 
