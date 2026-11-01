@@ -320,6 +320,24 @@
   animation: chipPulse 2s infinite ease-in-out;
 }
 
+/* Continuous Anti-Clockwise Rotation for Sacred Triquetra */
+@keyframes spinCounterClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-spin-reverse {
+  animation: spinCounterClockwise 10s linear infinite;
+}
+
+.animate-spin-reverse-fast {
+  animation: spinCounterClockwise 5s linear infinite;
+}
+
 /* Subtle CRT Scanlines & Cyber Tech Grid */
 .arcade-grid {
   background-color: #0a0915;

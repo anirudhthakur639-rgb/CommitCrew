@@ -2,7 +2,8 @@
 
 import React from "react";
 import { useGame } from "@/context/GameContext";
-import { Volume2, VolumeX, Flame, Coins, Heart, Compass, Home, User, Sparkles, GitPullRequest, Terminal, Zap } from "lucide-react";
+import { Volume2, VolumeX, Flame, Coins, Heart, Compass, Home, User, Sparkles, GitPullRequest, Terminal } from "lucide-react";
+import { TriquetraIcon } from "@/components/TriquetraIcon";
 
 export const Navbar: React.FC = () => {
   const {
@@ -34,8 +35,8 @@ export const Navbar: React.FC = () => {
               onClick={() => setActiveTab("home")}
               className="flex items-center gap-2.5 cursor-pointer group select-none"
             >
-              <div className="w-10 h-10 bg-[#090814] border-2 border-[#06d6a0] neon-brand-glow flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                <Zap className="w-5 h-5 text-[#06d6a0] fill-[#06d6a0] animate-pulse" />
+              <div className="w-10 h-10 rounded-xl bg-[#090814] border-2 border-[#06d6a0] shadow-[0_0_12px_rgba(6,214,160,0.5),2px_2px_0_#000] flex items-center justify-center group-hover:scale-110 group-hover:border-[#ffd166] group-hover:shadow-[0_0_18px_rgba(255,209,102,0.6),2px_2px_0_#000] transition-all relative">
+                <TriquetraIcon className="w-7 h-7 animate-spin-reverse group-hover:animate-spin-reverse-fast transition-all select-none" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
