@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useGame } from "@/context/GameContext";
 import { Shield, Sparkles, Flame, Coins, Trophy, Code2, Clock } from "lucide-react";
 import { soundFx } from "@/utils/sound";
+import { ArcadeCardExport } from "./ArcadeCardExport";
 
 export const ProfileView: React.FC = () => {
-  const { level, xp, xpToNextLevel, coins, streak, badges } = useGame();
-  const [selectedAvatar, setSelectedAvatar] = useState("🧙‍♂️");
+  const { level, xp, totalXp, coins, streak, badges, selectedAvatar, setSelectedAvatar } = useGame();
 
   const avatars = ["🧙‍♂️", "🤖", "🥷", "👾", "🦊", "👩‍💻", "🧝‍♀️", "💀"];
 
@@ -50,11 +50,11 @@ export const ProfileView: React.FC = () => {
           {/* Player Info & Stats */}
           <div className="flex-1 text-center md:text-left">
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-2">
-              <span className="font-pixel text-[10px] bg-[#ef476f] text-black px-2 py-0.5 border border-black">
+              <span className="font-pixel text-[10px] bg-[#ef476f] text-black px-2 py-0.5 border border-black font-bold">
                 PLAYER CARD
               </span>
-              <span className="font-pixel text-[10px] bg-[#ffd166] text-black px-2 py-0.5 border border-black">
-                LVL {level} APPRENTICE
+              <span className="font-pixel text-[10px] bg-[#ffd166] text-black px-2 py-0.5 border border-black font-bold">
+                LVL {level} CODE MAGE
               </span>
             </div>
 
@@ -69,7 +69,7 @@ export const ProfileView: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#0d0c1d] p-3 pixel-border-sm">
               <div className="text-center">
                 <div className="text-[10px] font-pixel text-[#a7a9be]">TOTAL EXP</div>
-                <div className="text-sm font-pixel text-[#06d6a0] mt-1">{level * 500 + xp}</div>
+                <div className="text-sm font-pixel text-[#06d6a0] mt-1">{totalXp}</div>
               </div>
               <div className="text-center">
                 <div className="text-[10px] font-pixel text-[#a7a9be]">COINS</div>
@@ -89,6 +89,9 @@ export const ProfileView: React.FC = () => {
 
         </div>
       </div>
+
+      {/* Shareable Arcade Passport Export */}
+      <ArcadeCardExport />
 
       {/* Equipment & Loadout */}
       <div className="bg-[#17152b] pixel-border p-5">

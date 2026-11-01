@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { soundFx } from "@/utils/sound";
 import confetti from "canvas-confetti";
 
@@ -22,40 +22,70 @@ export interface Badge {
   rarity: "common" | "rare" | "legendary";
 }
 
+export interface FloatingXp {
+  id: number;
+  amount: number;
+  label?: string;
+}
+
+export type ArcadeTheme = "cyberpunk" | "gameboy" | "synthwave";
+
 interface GameContextType {
   activeTab: "home" | "journey" | "git-story" | "terminal-lab" | "profile";
   setActiveTab: (tab: "home" | "journey" | "git-story" | "terminal-lab" | "profile") => void;
   level: number;
   xp: number;
+  totalXp: number;
   xpToNextLevel: number;
   coins: number;
   streak: number;
   hearts: number;
   isMuted: boolean;
   toggleMute: () => void;
-  addXp: (amount: number, reason?: string) => void;
+  addXp: (amount: number, label?: string) => void;
+  deductHeart: () => boolean;
+  refillHearts: (cost?: number) => boolean;
+  freeRevive: () => void;
+  isGameOver: boolean;
+  closeGameOverModal: () => void;
+  doubleXpCount: number;
+  hasStreakShield: boolean;
+  buyShopItem: (itemId: string, cost: number) => boolean;
+  activeTheme: ArcadeTheme;
+  setActiveTheme: (theme: ArcadeTheme) => void;
+  floatingXps: FloatingXp[];
   completeDailyQuest: (id: string) => void;
   dailyQuests: Quest[];
   badges: Badge[];
   activeModalQuest: Quest | null;
   openQuestModal: (quest: Quest) => void;
   closeQuestModal: () => void;
+  selectedAvatar: string;
+  setSelectedAvatar: (avatar: string) => void;
 }
+
+const STORAGE_KEY = "codequest_retro_state_v1";
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeTab, setActiveTabState] = useState<"home" | "journey" | "git-story" | "terminal-lab" | "profile">("home");
-  const [xp, setXp] = useState(420);
-  const [coins, setCoins] = useState(185);
-  const [streak, setStreak] = useState(7);
-  const [hearts] = useState(3);
-  const [isMuted, setIsMuted] = useState(false);
+  const [totalXp, setTotalXp] = useState<number>(420);
+  const [coins, setCoins] = useState<number>(185);
+  const [streak, setStreak] = useState<number>(7);
+  const [hearts, setHearts] = useState<number>(3);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const [doubleXpCount, setDoubleXpCount] = useState<number>(0);
+  const [hasStreakShield, setHasStreakShield] = useState<boolean>(false);
+  const [activeTheme, setActiveTheme] = useState<ArcadeTheme>("cyberpunk");
+  const [selectedAvatar, setSelectedAvatar] = useState<string>("🧙‍♂️");
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [floatingXps, setFloatingXps] = useState<FloatingXp[]>([]);
   const [activeModalQuest, setActiveModalQuest] = useState<Quest | null>(null);
 
   const xpPerLevel = 500;
-  const level = Math.floor(xp / xpPerLevel) + 1;
-  const currentLevelXp = xp % xpPerLevel;
+  const level = Math.floor(totalXp / xpPerLevel) + 1;
+  const currentLevelXp = totalXp % xpPerLevel;
   const xpToNextLevel = xpPerLevel;
 
   const [dailyQuests, setDailyQuests] = useState<Quest[]>([
@@ -118,7 +148,60 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       unlocked: false,
       rarity: "legendary",
     },
+    {
+      id: "b5",
+      name: "Git Master",
+      description: "Mastered staging, branching, and pull requests in CodeQuest.",
+      icon: "🐱",
+      unlocked: false,
+      rarity: "legendary",
+    },
   ]);
+
+  // Load state from localStorage on client mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (typeof data.totalXp === "number") setTotalXp(data.totalXp);
+        if (typeof data.coins === "number") setCoins(data.coins);
+        if (typeof data.streak === "number") setStreak(data.streak);
+        if (typeof data.hearts === "number") setHearts(data.hearts);
+        if (typeof data.doubleXpCount === "number") setDoubleXpCount(data.doubleXpCount);
+        if (typeof data.hasStreakShield === "boolean") setHasStreakShield(data.hasStreakShield);
+        if (data.activeTheme) setActiveTheme(data.activeTheme);
+        if (data.selectedAvatar) setSelectedAvatar(data.selectedAvatar);
+        if (Array.isArray(data.dailyQuests)) setDailyQuests(data.dailyQuests);
+        if (Array.isArray(data.badges)) setBadges(data.badges);
+      }
+    } catch {
+      // ignore JSON parse errors
+    }
+  }, []);
+
+  // Save state to localStorage whenever state changes
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const dataToSave = {
+        totalXp,
+        coins,
+        streak,
+        hearts,
+        doubleXpCount,
+        hasStreakShield,
+        activeTheme,
+        selectedAvatar,
+        dailyQuests,
+        badges,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+    } catch {
+      // ignore storage quota errors
+    }
+  }, [totalXp, coins, streak, hearts, doubleXpCount, hasStreakShield, activeTheme, selectedAvatar, dailyQuests, badges]);
 
   const setActiveTab = (tab: "home" | "journey" | "git-story" | "terminal-lab" | "profile") => {
     soundFx.playClick();
@@ -130,13 +213,27 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsMuted(muted);
   };
 
-  const addXp = (amount: number) => {
-    const prevLevel = Math.floor(xp / xpPerLevel) + 1;
-    const newXp = xp + amount;
-    const newLevel = Math.floor(newXp / xpPerLevel) + 1;
+  const addXp = useCallback((amount: number, label?: string) => {
+    const multiplier = doubleXpCount > 0 ? 2 : 1;
+    const finalAmount = amount * multiplier;
 
-    setXp(newXp);
-    setCoins((c) => c + Math.round(amount / 2));
+    if (doubleXpCount > 0) {
+      setDoubleXpCount((prev) => Math.max(0, prev - 1));
+    }
+
+    const prevLevel = Math.floor(totalXp / xpPerLevel) + 1;
+    const newTotalXp = totalXp + finalAmount;
+    const newLevel = Math.floor(newTotalXp / xpPerLevel) + 1;
+
+    setTotalXp(newTotalXp);
+    setCoins((c) => c + Math.round(finalAmount / 2));
+
+    // Spawn floating particle notification
+    const particleId = Date.now() + Math.random();
+    setFloatingXps((prev) => [...prev, { id: particleId, amount: finalAmount, label }]);
+    setTimeout(() => {
+      setFloatingXps((prev) => prev.filter((p) => p.id !== particleId));
+    }, 2000);
 
     if (newLevel > prevLevel) {
       soundFx.playLevelUp();
@@ -155,13 +252,82 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         colors: ["#ffd166", "#06d6a0"],
       });
     }
-  };
+  }, [doubleXpCount, totalXp, xpPerLevel]);
+
+  const deductHeart = useCallback((): boolean => {
+    soundFx.playWrong();
+    if (hearts <= 1) {
+      setHearts(0);
+      setIsGameOver(true);
+      return false;
+    }
+    setHearts((h) => h - 1);
+    return true;
+  }, [hearts]);
+
+  const refillHearts = useCallback((cost: number = 50): boolean => {
+    if (coins < cost) {
+      soundFx.playWrong();
+      return false;
+    }
+    setCoins((c) => c - cost);
+    setHearts(3);
+    setIsGameOver(false);
+    soundFx.playSuccess();
+    confetti({
+      particleCount: 80,
+      spread: 60,
+      origin: { y: 0.65 },
+      colors: ["#ef476f", "#ffd166", "#06d6a0"],
+    });
+    return true;
+  }, [coins]);
+
+  const freeRevive = useCallback(() => {
+    setHearts(1);
+    setIsGameOver(false);
+    soundFx.playCoin();
+  }, []);
+
+  const closeGameOverModal = useCallback(() => {
+    setIsGameOver(false);
+  }, []);
+
+  const buyShopItem = useCallback((itemId: string, cost: number): boolean => {
+    if (coins < cost) {
+      soundFx.playWrong();
+      return false;
+    }
+    setCoins((c) => c - cost);
+    soundFx.playCoin();
+    confetti({
+      particleCount: 60,
+      spread: 60,
+      origin: { y: 0.65 },
+      colors: ["#ffd166", "#06d6a0"],
+    });
+
+    if (itemId === "heart-potion") {
+      setHearts(3);
+    } else if (itemId === "double-xp") {
+      setDoubleXpCount((prev) => prev + 3);
+    } else if (itemId === "streak-shield") {
+      setHasStreakShield(true);
+    } else if (itemId === "skin-gameboy") {
+      setActiveTheme("gameboy");
+    } else if (itemId === "skin-synthwave") {
+      setActiveTheme("synthwave");
+    } else if (itemId === "skin-cyberpunk") {
+      setActiveTheme("cyberpunk");
+    }
+    return true;
+  }, [coins]);
 
   const completeDailyQuest = (id: string) => {
     setDailyQuests((prev) =>
       prev.map((q) => {
         if (q.id === id && !q.completed) {
-          addXp(q.xpReward);
+          addXp(q.xpReward, q.title);
           return { ...q, completed: true };
         }
         return q;
@@ -186,6 +352,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setActiveTab,
         level,
         xp: currentLevelXp,
+        totalXp,
         xpToNextLevel,
         coins,
         streak,
@@ -193,12 +360,25 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isMuted,
         toggleMute,
         addXp,
+        deductHeart,
+        refillHearts,
+        freeRevive,
+        isGameOver,
+        closeGameOverModal,
+        doubleXpCount,
+        hasStreakShield,
+        buyShopItem,
+        activeTheme,
+        setActiveTheme,
+        floatingXps,
         completeDailyQuest,
         dailyQuests,
         badges,
         activeModalQuest,
         openQuestModal,
         closeQuestModal,
+        selectedAvatar,
+        setSelectedAvatar,
       }}
     >
       {children}
@@ -213,4 +393,3 @@ export const useGame = () => {
   }
   return context;
 };
-

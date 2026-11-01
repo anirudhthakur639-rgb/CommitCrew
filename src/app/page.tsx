@@ -12,6 +12,8 @@ import { GitStoryViewer } from "@/components/GitStoryViewer";
 import { InteractiveLessonWorkspace } from "@/components/InteractiveLessonWorkspace";
 import { CodedexAnimatedBackground } from "@/components/CodedexAnimatedBackground";
 import { QuestModal } from "@/components/QuestModal";
+import { GameOverModal } from "@/components/GameOverModal";
+import { FloatingXpManager } from "@/components/FloatingXpManager";
 
 const DashboardContent: React.FC = () => {
   const { activeTab, setActiveTab } = useGame();
@@ -81,6 +83,12 @@ const DashboardContent: React.FC = () => {
 
       {/* Interactive Quest Modal */}
       <QuestModal />
+
+      {/* Game Over Respawn Modal */}
+      <GameOverModal />
+
+      {/* Real-time Floating XP Gain Particle Manager */}
+      <FloatingXpManager />
 
       {/* Retro Arcade Footer */}
       <footer className="bg-[#090814] border-t-4 border-black py-6 mt-12">

@@ -5,15 +5,26 @@ import { gitStoryChapters, GitStoryChapter, CharacterDialogue } from "@/data/git
 import { useGame } from "@/context/GameContext";
 import { soundFx } from "@/utils/sound";
 import confetti from "canvas-confetti";
+import { GitBranchGraph } from "./GitBranchGraph";
 import { 
   ArrowLeft, ArrowRight, Terminal, Sparkles, CheckCircle2, 
-  AlertCircle, Play, Award, ChevronRight, RefreshCw, Check
+  AlertCircle, Play, Award, ChevronRight, RefreshCw, Check,
+  Sun, Moon, Sunset, Sunrise, ExternalLink, GitPullRequest, Heart
 } from "lucide-react";
 
 export const GitStoryViewer: React.FC = () => {
-  const { addXp, setActiveTab } = useGame();
+  const { addXp, deductHeart, setActiveTab } = useGame();
   const [currentIdx, setCurrentIdx] = useState<number>(0);
   const [activeDialogueIdx, setActiveDialogueIdx] = useState<number>(0);
+
+  // Dynamic Time-of-Day Nature Atmosphere state
+  const [timeOfDay, setTimeOfDay] = useState<"dawn" | "day" | "dusk" | "night">(() => {
+    const h = new Date().getHours();
+    if (h >= 5 && h < 11) return "dawn";
+    if (h >= 11 && h < 17) return "day";
+    if (h >= 17 && h < 21) return "dusk";
+    return "night";
+  });
 
   // Terminal simulator state
   const [simRunning, setSimRunning] = useState<boolean>(false);
@@ -104,7 +115,7 @@ export const GitStoryViewer: React.FC = () => {
       }
     } else {
       setQuizStatus("wrong");
-      soundFx.playWrong();
+      deductHeart();
     }
   };
 
@@ -112,11 +123,21 @@ export const GitStoryViewer: React.FC = () => {
     <div className="max-w-[860px] mx-auto space-y-5 pb-12 font-sans text-[#eef0ff]">
 
       {/* ================= 1. TOP HERO BANNER WITH SOOTHING NATURE IN-MOTION BACKGROUND ================= */}
-      <div className="relative rounded-2xl pixel-border-lg overflow-hidden shadow-[0_0_24px_rgba(6,214,160,0.5),4px_4px_0_#000] min-h-[175px] sm:min-h-[200px] flex flex-col justify-between p-6 sm:p-8 bg-[#157dd0]">
+      <div className={`relative rounded-2xl pixel-border-lg overflow-hidden shadow-[0_0_24px_rgba(6,214,160,0.5),4px_4px_0_#000] min-h-[185px] sm:min-h-[210px] flex flex-col justify-between p-6 sm:p-8 transition-colors duration-500 ${
+        timeOfDay === "dawn"
+          ? "bg-[#d97706]"
+          : timeOfDay === "day"
+          ? "bg-[#157dd0]"
+          : timeOfDay === "dusk"
+          ? "bg-[#7c3aed]"
+          : "bg-[#050814]"
+      }`}>
         
         {/* Layer 1: Animated Sky & Moving Clouds Layer */}
         <div 
-          className="absolute inset-0 animate-sky-move pixelated pointer-events-none"
+          className={`absolute inset-0 animate-sky-move pixelated pointer-events-none transition-opacity duration-500 ${
+            timeOfDay === "night" ? "opacity-30" : "opacity-100"
+          }`}
           style={{
             backgroundImage: 'url("/images/codedex-bg/LandingPage_Sky.png")',
             backgroundRepeat: "repeat-x",
@@ -124,9 +145,16 @@ export const GitStoryViewer: React.FC = () => {
           }}
         />
 
+        {/* Night Stars and Fireflies Overlay (When Night Mode is active) */}
+        {timeOfDay === "night" && (
+          <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px] opacity-40 pointer-events-none" />
+        )}
+
         {/* Layer 2: Parallax Mountain Layer */}
         <div 
-          className="absolute bottom-6 left-0 w-full h-28 pixelated opacity-90 pointer-events-none"
+          className={`absolute bottom-6 left-0 w-full h-28 pixelated pointer-events-none transition-all duration-500 ${
+            timeOfDay === "night" ? "opacity-60 brightness-75" : timeOfDay === "dawn" ? "sepia-30" : "opacity-90"
+          }`}
           style={{
             backgroundImage: 'url("/images/codedex-bg/LandingPage_Mountain.png")',
             backgroundRepeat: "repeat-x",
@@ -136,7 +164,9 @@ export const GitStoryViewer: React.FC = () => {
 
         {/* Layer 3: Animated Rolling Green Hills GIF */}
         <div 
-          className="absolute bottom-2 left-0 w-full h-24 pixelated opacity-95 pointer-events-none"
+          className={`absolute bottom-2 left-0 w-full h-24 pixelated pointer-events-none transition-all duration-500 ${
+            timeOfDay === "night" ? "opacity-80 brightness-75" : "opacity-95"
+          }`}
           style={{
             backgroundImage: 'url("/images/codedex-bg/LandingPage_Hills.gif")',
             backgroundRepeat: "repeat-x",
@@ -156,7 +186,9 @@ export const GitStoryViewer: React.FC = () => {
 
         {/* Layer 5: Animated Waving Grass GIF */}
         <div 
-          className="absolute -bottom-1 left-0 w-full h-12 pixelated z-10 pointer-events-none"
+          className={`absolute -bottom-1 left-0 w-full h-12 pixelated z-10 pointer-events-none ${
+            timeOfDay === "night" ? "brightness-75" : ""
+          }`}
           style={{
             backgroundImage: 'url("/images/codedex-bg/LandingPage_Grass.gif")',
             backgroundRepeat: "repeat-x",
@@ -164,8 +196,16 @@ export const GitStoryViewer: React.FC = () => {
           }}
         />
 
-        {/* Layer 6: Calming Vignette Mist & Readability Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1020]/75 via-[#0b1020]/50 to-[#0b1020]/80 backdrop-blur-[1px] pointer-events-none z-10" />
+        {/* Layer 6: Calming Vignette Mist & Readability Gradient Overlay based on Time of Day */}
+        <div className={`absolute inset-0 backdrop-blur-[1px] pointer-events-none z-10 transition-colors duration-500 ${
+          timeOfDay === "dawn"
+            ? "bg-gradient-to-b from-[#d97706]/40 via-[#0b1020]/60 to-[#0b1020]/85"
+            : timeOfDay === "day"
+            ? "bg-gradient-to-b from-[#0b1020]/75 via-[#0b1020]/50 to-[#0b1020]/80"
+            : timeOfDay === "dusk"
+            ? "bg-gradient-to-b from-[#581c87]/50 via-[#0b1020]/65 to-[#0b1020]/90"
+            : "bg-gradient-to-b from-[#020617]/80 via-[#0b1020]/70 to-[#0b1020]/95"
+        }`} />
 
         {/* Layer 7: Subtle CRT scanlines */}
         <div className="absolute inset-0 scanlines opacity-20 pointer-events-none z-10" />
@@ -173,28 +213,63 @@ export const GitStoryViewer: React.FC = () => {
         {/* Content (Z-Index 20 above the animated nature background) */}
         <div className="relative z-20 text-center flex flex-col items-center justify-center space-y-2">
           
-          {/* Quick Chapter Navigation Pill Selector */}
-          <div className="flex items-center justify-center gap-1.5 mb-1 flex-wrap">
-            {gitStoryChapters.map((ch, idx) => {
-              const isCurrent = idx === currentIdx;
-              const isCleared = completedChapters[ch.id];
-              return (
-                <button
-                  key={ch.id}
-                  onClick={() => handleJumpToChapter(idx)}
-                  className={`px-2.5 py-1 rounded font-pixel text-[8px] transition-all flex items-center gap-1 cursor-pointer ${
-                    isCurrent
-                      ? "bg-[#ffd166] text-black font-bold shadow-[0_0_12px_#ffd166] scale-105 border border-black"
-                      : isCleared
-                      ? "bg-[#2ee59d] text-black font-bold shadow-[0_0_8px_rgba(46,229,157,0.4)]"
-                      : "bg-[#0b1020]/80 text-white/90 hover:bg-[#0b1020] hover:text-white border border-[#262d55]"
-                  }`}
-                >
-                  <span>CH {idx + 1}</span>
-                  {isCleared && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                </button>
-              );
-            })}
+          {/* Top Row: Quick Chapter Navigation & Time-of-Day Atmosphere Switcher */}
+          <div className="w-full flex items-center justify-between gap-2 flex-wrap mb-1">
+            {/* Quick Chapter Navigation Pill Selector */}
+            <div className="flex items-center gap-1.5 flex-wrap mx-auto sm:mx-0">
+              {gitStoryChapters.map((ch, idx) => {
+                const isCurrent = idx === currentIdx;
+                const isCleared = completedChapters[ch.id];
+                return (
+                  <button
+                    key={ch.id}
+                    onClick={() => handleJumpToChapter(idx)}
+                    className={`px-2 py-0.5 rounded font-pixel text-[8px] transition-all flex items-center gap-1 cursor-pointer ${
+                      isCurrent
+                        ? "bg-[#ffd166] text-black font-bold shadow-[0_0_12px_#ffd166] scale-105 border border-black"
+                        : isCleared
+                        ? "bg-[#2ee59d] text-black font-bold shadow-[0_0_8px_rgba(46,229,157,0.4)]"
+                        : "bg-[#0b1020]/80 text-white/90 hover:bg-[#0b1020] hover:text-white border border-[#262d55]"
+                    }`}
+                  >
+                    <span>CH {idx + 1}</span>
+                    {isCleared && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Time-of-Day Atmosphere Pills */}
+            <div className="flex items-center gap-1 bg-[#090814]/80 p-0.5 rounded-full border border-gray-700 mx-auto sm:mx-0">
+              <button
+                onClick={() => setTimeOfDay("dawn")}
+                title="Morning Sunrise"
+                className={`p-1 rounded-full transition-all ${timeOfDay === "dawn" ? "bg-[#f59e0b] text-black" : "text-gray-400 hover:text-white"}`}
+              >
+                <Sunrise className="w-3 h-3" />
+              </button>
+              <button
+                onClick={() => setTimeOfDay("day")}
+                title="Bright Daylight"
+                className={`p-1 rounded-full transition-all ${timeOfDay === "day" ? "bg-[#38bdf8] text-black" : "text-gray-400 hover:text-white"}`}
+              >
+                <Sun className="w-3 h-3" />
+              </button>
+              <button
+                onClick={() => setTimeOfDay("dusk")}
+                title="Twilight Sunset"
+                className={`p-1 rounded-full transition-all ${timeOfDay === "dusk" ? "bg-[#c084fc] text-black" : "text-gray-400 hover:text-white"}`}
+              >
+                <Sunset className="w-3 h-3" />
+              </button>
+              <button
+                onClick={() => setTimeOfDay("night")}
+                title="Midnight Starry Sky"
+                className={`p-1 rounded-full transition-all ${timeOfDay === "night" ? "bg-[#818cf8] text-black" : "text-gray-400 hover:text-white"}`}
+              >
+                <Moon className="w-3 h-3" />
+              </button>
+            </div>
           </div>
 
           <h1 className="font-pixel text-xl sm:text-2xl text-white font-bold tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
@@ -204,9 +279,9 @@ export const GitStoryViewer: React.FC = () => {
             {currentChapter.heroSubtitle}
           </p>
 
-          <div className="pt-1">
+          <div className="pt-1 flex items-center gap-2">
             <span className="font-pixel text-[8px] text-[#2ee59d] bg-[#0b1020]/80 px-2.5 py-0.5 rounded-full border border-[#2ee59d]/50 shadow-[0_0_8px_rgba(46,229,157,0.3)]">
-              🌿 CALM NATURE MODE · 60 FPS
+              🌿 {timeOfDay.toUpperCase()} ATMOSPHERE · 60 FPS
             </span>
           </div>
 
@@ -401,6 +476,63 @@ export const GitStoryViewer: React.FC = () => {
             </button>
           </div>
         </div>
+
+        {/* Live Interactive Git Branch Visualizer for Chapter 4 & 5 */}
+        {(currentChapter.chapterNumber === 4 || currentChapter.chapterNumber === 5) && (
+          <div className="mt-4 pt-2 border-t border-[#262d55]">
+            <GitBranchGraph />
+          </div>
+        )}
+
+        {/* Real-World Open-Source Bridge for Chapter 6 */}
+        {currentChapter.chapterNumber === 6 && (
+          <div className="mt-4 pt-3 border-t border-[#262d55] space-y-3">
+            <div className="flex items-center gap-2">
+              <GitPullRequest className="w-4 h-4 text-[#06d6a0]" />
+              <h3 className="font-pixel text-xs text-[#06d6a0]">
+                Real-World Bridge: Make Your First Open-Source PR!
+              </h3>
+            </div>
+            <p className="text-xs text-[#a3a9cf] font-mono">
+              You know the theory! Ready to make your first live contribution? These repos welcome beginners with `good-first-issue` labels:
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <a
+                href="https://github.com/firstcontributions/first-contributions"
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 bg-[#0b1020] hover:bg-[#1b2140] rounded-xl border border-[#262d55] hover:border-[#06d6a0] flex items-center justify-between transition-all group"
+              >
+                <div>
+                  <div className="font-pixel text-[9px] text-[#ffd166] group-hover:text-white">
+                    First Contributions
+                  </div>
+                  <div className="text-[10px] font-mono text-[#a7a9be]">
+                    Add your name to the hall of fame
+                  </div>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-[#06d6a0] group-hover:scale-110 transition-transform" />
+              </a>
+
+              <a
+                href="https://github.com/freeCodeCamp/freeCodeCamp"
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 bg-[#0b1020] hover:bg-[#1b2140] rounded-xl border border-[#262d55] hover:border-[#06d6a0] flex items-center justify-between transition-all group"
+              >
+                <div>
+                  <div className="font-pixel text-[9px] text-[#ffd166] group-hover:text-white">
+                    freeCodeCamp
+                  </div>
+                  <div className="text-[10px] font-mono text-[#a7a9be]">
+                    Fix typos, docs & curriculum tests
+                  </div>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-[#06d6a0] group-hover:scale-110 transition-transform" />
+              </a>
+            </div>
+          </div>
+        )}
 
       </div>
 

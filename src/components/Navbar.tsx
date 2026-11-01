@@ -14,6 +14,7 @@ export const Navbar: React.FC = () => {
     coins,
     streak,
     hearts,
+    refillHearts,
     isMuted,
     toggleMute,
   } = useGame();
@@ -167,14 +168,33 @@ export const Navbar: React.FC = () => {
                 <span className="font-pixel text-xs font-bold">{coins}</span>
               </div>
 
-              {/* Hearts */}
+              {/* Hearts (Interactive Arcade Lives) */}
               <div 
-                title="Lives Remaining"
-                className="hidden sm:flex items-center gap-1 bg-[#181534] px-2 py-1.5 pixel-border-sm text-[#ef476f] border border-[#ef476f]/60"
+                title={`${hearts} of 3 Lives Remaining - Refill in Shop!`}
+                onClick={() => {
+                  if (hearts < 3) {
+                    refillHearts(50);
+                  }
+                }}
+                className={`flex items-center gap-1 bg-[#181534] px-2.5 py-1.5 pixel-border-sm transition-all cursor-pointer ${
+                  hearts <= 1
+                    ? "text-[#ef476f] border-2 border-[#ef476f] animate-pulse shadow-[0_0_12px_#ef476f]"
+                    : "text-[#ef476f] border border-[#ef476f]/60 shadow-[0_0_8px_rgba(239,71,111,0.3)]"
+                }`}
               >
-                {Array.from({ length: hearts }).map((_, i) => (
-                  <Heart key={i} className="w-3.5 h-3.5 fill-[#ef476f]" />
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <Heart 
+                    key={i} 
+                    className={`w-3.5 h-3.5 transition-all ${
+                      i < hearts 
+                        ? "fill-[#ef476f] text-[#ef476f] scale-105" 
+                        : "text-gray-700 fill-transparent opacity-30 scale-90"
+                    }`} 
+                  />
                 ))}
+                <span className="font-pixel text-[9px] text-[#ef476f] ml-0.5 hidden lg:inline font-bold">
+                  {hearts}/3
+                </span>
               </div>
 
               {/* Audio Toggle */}

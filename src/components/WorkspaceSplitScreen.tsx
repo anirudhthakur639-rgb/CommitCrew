@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { soundFx } from "@/utils/sound";
+import { useGame } from "@/context/GameContext";
 import { 
   ArrowLeft, BookOpen, CheckCircle2, AlertCircle, Sparkles, 
   Terminal, Code2, HelpCircle, Play, Flame, Award, Lightbulb
@@ -42,10 +43,12 @@ export const WorkspaceSplitScreen: React.FC<WorkspaceSplitScreenProps> = ({
   onBack,
   onComplete,
 }) => {
+  const { deductHeart } = useGame();
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [status, setStatus] = useState<"idle" | "success" | "wrong">("idle");
   const [showHint, setShowHint] = useState<boolean>(false);
   const [activeDocTab, setActiveDocTab] = useState<"guide" | "code" | "bhasha">("guide");
+  const [mobileTab, setMobileTab] = useState<"doc" | "checkpoint">("doc");
 
   const handleSelectOption = (idx: number) => {
     soundFx.playClick();
@@ -63,7 +66,8 @@ export const WorkspaceSplitScreen: React.FC<WorkspaceSplitScreenProps> = ({
       onComplete(module.id, module.xpReward);
     } else {
       setStatus("wrong");
-      soundFx.playClick();
+      soundFx.playWrong();
+      deductHeart();
     }
   };
 
@@ -118,11 +122,45 @@ export const WorkspaceSplitScreen: React.FC<WorkspaceSplitScreenProps> = ({
         </div>
       </div>
 
+      {/* Mobile Split-Screen Mode Switcher (Visible on < 1024px) */}
+      <div className="flex lg:hidden bg-[#090814] p-1.5 pixel-border gap-2">
+        <button
+          type="button"
+          onClick={() => {
+            soundFx.playClick();
+            setMobileTab("doc");
+          }}
+          className={`flex-1 py-2 font-pixel text-[10px] flex items-center justify-center gap-2 transition-all ${
+            mobileTab === "doc"
+              ? "bg-[#ffd166] text-black font-bold shadow-md"
+              : "text-[#a7a9be] hover:text-white"
+          }`}
+        >
+          <BookOpen className="w-3.5 h-3.5" />
+          <span>📖 GUIDE &amp; SYNTAX</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            soundFx.playClick();
+            setMobileTab("checkpoint");
+          }}
+          className={`flex-1 py-2 font-pixel text-[10px] flex items-center justify-center gap-2 transition-all ${
+            mobileTab === "checkpoint"
+              ? "bg-[#06d6a0] text-black font-bold shadow-md"
+              : "text-[#a7a9be] hover:text-white"
+          }`}
+        >
+          <Terminal className="w-3.5 h-3.5" />
+          <span>⚡ CHECKPOINT</span>
+        </button>
+      </div>
+
       {/* Split-Screen Main Container */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch min-h-[580px]">
         
         {/* ================= LEFT PANE: DOCUMENTATION & THEORY (6 Cols) ================= */}
-        <div className="lg:col-span-6 bg-[#17152b] pixel-border flex flex-col overflow-hidden">
+        <div className={`${mobileTab === "doc" ? "flex" : "hidden"} lg:flex lg:col-span-6 bg-[#17152b] pixel-border flex-col overflow-hidden`}>
           
           {/* Doc Header with Tabs */}
           <div className="bg-[#0f0e17] border-b-4 border-black p-2 flex items-center justify-between">
@@ -248,7 +286,7 @@ export const WorkspaceSplitScreen: React.FC<WorkspaceSplitScreenProps> = ({
         </div>
 
         {/* ================= RIGHT PANE: INTERACTIVE QUIZ & CHECKPOINT (6 Cols) ================= */}
-        <div className="lg:col-span-6 bg-[#17152b] pixel-border flex flex-col justify-between overflow-hidden">
+        <div className={`${mobileTab === "checkpoint" ? "flex" : "hidden"} lg:flex lg:col-span-6 bg-[#17152b] pixel-border flex-col justify-between overflow-hidden`}>
           
           {/* Checkpoint Header */}
           <div className="bg-[#0f0e17] border-b-4 border-black p-2 flex items-center justify-between">
