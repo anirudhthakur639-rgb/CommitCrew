@@ -185,3 +185,4 @@ export const ArcadeShop: React.FC = () => {
     </div>
   );
 };
+

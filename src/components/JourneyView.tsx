@@ -297,7 +297,7 @@ git push origin feat/indic-tutor`,
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <span className="font-pixel text-[9px] bg-[#ffd166] text-black px-2 py-0.5 border border-black">
-                    WORLD 01 · BENGALURU ARENA
+                    WORLD 01 · CODEQUEST ARENA
                   </span>
                   <span className="text-xs font-mono text-[#06d6a0] flex items-center gap-1">
                     <Sparkles className="w-3.5 h-3.5" />

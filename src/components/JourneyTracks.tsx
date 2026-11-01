@@ -80,7 +80,7 @@ export const JourneyTracks: React.FC = () => {
       accentHex: "#ff8906",
       completedQuests: 2,
       totalQuests: 6,
-      levelBadge: "HACKTOBERFEST SPECIAL",
+      levelBadge: "OPEN-SOURCE SPECIAL",
       status: "active",
       xpBounty: 500,
     },

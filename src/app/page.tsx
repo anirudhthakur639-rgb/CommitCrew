@@ -96,12 +96,12 @@ const DashboardContent: React.FC = () => {
           <div className="flex items-center gap-2 justify-center">
             <span className="w-2 h-2 bg-[#06d6a0] rounded-full animate-ping" />
             <span className="font-pixel text-[10px] text-[#ffd166]">
-              DEVF8RGE × HACKTOBERFEST 2026
+              CODEQUEST ARCADE ARENA
             </span>
           </div>
 
           <div className="font-mono text-xs text-[#a7a9be]">
-            CodeQuest · Built with 8-bit love for open-source learners · Hacktoberfest 2026
+            CodeQuest · Built with 8-bit love for open-source learners
           </div>
 
           <div className="font-pixel text-[9px] text-[#ef476f] bg-[#141226] px-2.5 py-1 border border-[#ef476f] shadow-[0_0_10px_rgba(239,71,111,0.5),2px_2px_0_#000]">

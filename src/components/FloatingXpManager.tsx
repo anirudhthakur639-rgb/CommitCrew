@@ -28,3 +28,4 @@ export const FloatingXpManager: React.FC = () => {
     </div>
   );
 };
+

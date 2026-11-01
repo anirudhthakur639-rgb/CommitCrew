@@ -76,21 +76,6 @@ export const HeroCabinet: React.FC = () => {
 
         {/* CRT Scanline & Screen Glare Effect */}
         <div className="absolute inset-0 scanlines opacity-30 pointer-events-none z-20" />
-
-        {/* Overlay Badges on Top of Animated Computer Screen */}
-        <div className="absolute top-3 left-3 sm:left-4 z-20 flex items-center gap-2">
-          <span className="bg-[#ef476f] text-black font-pixel text-[9px] px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] animate-pulse">
-            ★ HACKTOBERFEST 2026
-          </span>
-          <span className="bg-[#ffd166] text-black font-pixel text-[8px] px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] hidden sm:inline-block">
-            BENGALURU ARENA
-          </span>
-        </div>
-
-        <div className="absolute top-3 right-3 sm:right-4 z-20 bg-[#090814]/90 px-2.5 py-1 pixel-border-sm text-[10px] font-mono text-[#06d6a0] flex items-center gap-1.5 backdrop-blur-xs">
-          <span className="inline-block w-2 h-2 bg-[#06d6a0] rounded-full animate-ping" />
-          <span>70 TEAMS LIVE IN ARENA</span>
-        </div>
       </div>
 
       {/* ================= BOTTOM CONTENT: MASCOT & QUEST ACTION ================= */}
@@ -121,7 +106,7 @@ export const HeroCabinet: React.FC = () => {
                 </span>
               </div>
               <p className="text-xs sm:text-sm font-mono leading-relaxed font-semibold">
-                &quot;Welcome to CodeQuest Bengaluru finals! The clock is ticking toward 10:00 AM. Master the ancient arts of open-source logic, conquer the stages, and claim your share of the ₹25K bounty!&quot;
+                &quot;Welcome to CodeQuest! Master the ancient arts of open-source logic, conquer the challenges, and claim your developer glory!&quot;
               </p>
             </div>
           </div>

@@ -176,3 +176,4 @@ export const GitBranchGraph: React.FC = () => {
     </div>
   );
 };
+

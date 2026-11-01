@@ -85,7 +85,7 @@ export const ArcadeCardExport: React.FC = () => {
 
     ctx.fillStyle = "#a7a9be";
     ctx.font = "14px monospace";
-    ctx.fillText("Guild: DevForge Bengaluru · Hacktoberfest 2026", 185, 178);
+    ctx.fillText("Guild: CodeQuest Guild · Open Source Explorer", 185, 178);
 
     // Rank Pill
     ctx.fillStyle = "#06d6a0";
@@ -174,3 +174,4 @@ export const ArcadeCardExport: React.FC = () => {
     </div>
   );
 };
+
